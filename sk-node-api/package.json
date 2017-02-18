@@ -1,9 +1,12 @@
 {
-	"name": "sk-node-api",
-	"description": "sk-node-api description",
-	"version": "1.0.0",
-	"main": "app.js",
-	"scripts": {
-		"start": "node app.js"
-	}
+  "name": "sk-node-api",
+  "description": "sk-node-api description",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "java": "^0.8.0"
+  }
 }
