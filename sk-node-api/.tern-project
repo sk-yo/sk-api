@@ -30,10 +30,5 @@
   "libs": [
     
   ],
-  "ecmaVersion": 6,
-  "ide": {
-    "scriptPaths": [
-      
-    ]
-  }
+  "ecmaVersion": 6
 }
