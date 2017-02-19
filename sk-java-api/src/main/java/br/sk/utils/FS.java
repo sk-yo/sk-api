@@ -25,7 +25,7 @@ public class FS implements Serializable {
 		try {
 			return Optional.of(Files.list(Paths.get(path)).filter(Files::isDirectory));
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
@@ -34,7 +34,7 @@ public class FS implements Serializable {
 		try {
 			return Optional.of(Files.walk(Paths.get(path)).filter(Files::isDirectory));
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
@@ -43,7 +43,7 @@ public class FS implements Serializable {
 		try {
 			return Optional.of(Files.list(Paths.get(path)).filter(Files::isRegularFile));
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
@@ -52,7 +52,7 @@ public class FS implements Serializable {
 		try {
 			return Optional.of(Files.walk(Paths.get(path)).filter(Files::isRegularFile));
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
@@ -61,7 +61,7 @@ public class FS implements Serializable {
 		try {
 			return Optional.of(Files.walk(path).filter(Files::isRegularFile));
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
@@ -70,7 +70,7 @@ public class FS implements Serializable {
 		try {
 			return Files.list(Paths.get(path)).filter(Files::isRegularFile).anyMatch(path1 -> path1.toFile().getName().equals(fileName));
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -79,7 +79,7 @@ public class FS implements Serializable {
 		try {
 			return Files.list(path).filter(Files::isRegularFile).anyMatch(path1 -> path1.toFile().getName().equals(fileName));
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -88,7 +88,7 @@ public class FS implements Serializable {
 		try {
 			return Files.list(path).filter(Files::isDirectory).anyMatch(path1 -> path1.toFile().getName().equals(dirName));
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -100,7 +100,7 @@ public class FS implements Serializable {
 				Files.createDirectories(Paths.get(finalPath));
 				System.out.println("Diretório criado com sucesso: {}" + finalPath);
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 			return;
 		}
@@ -117,7 +117,7 @@ public class FS implements Serializable {
 				writer.close();
 				System.out.println("Arquivo criando com sucesso: {}" + path);
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
+				e.printStackTrace();;
 			}
 			return;
 		}
@@ -134,7 +134,7 @@ public class FS implements Serializable {
 				writer.close();
 				System.out.println("Arquivo atualizado com sucesso: {}" + path);
 			} catch (IOException e) {
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 			return;
 		}
