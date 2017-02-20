@@ -37,6 +37,13 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <outputDirectory>./../sk-node-api/lib</outputDirectory>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <properties>
