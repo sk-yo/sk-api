@@ -8,6 +8,6 @@ module.exports = class  {
 	}
 	
 	findClassesByAnnotationName(name) {
-		return java.callStaticMethodSync('br.sk.api.Project','findClassesByAnnotationName', this.path, 'javax.persistence.Entity');
+		return java.callStaticMethodSync('br.sk.api.Project','findClassesByAnnotationName', this.path, name);
 	}
 }
