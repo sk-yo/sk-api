@@ -9,7 +9,7 @@ import br.sk.utils.JSON;
 
 public class Project {
 
-	public String findClassesByAnnotationName(String projectDir, String annotationName) {
+	public static String findClassesByAnnotationName(String projectDir, String annotationName) {
 		EMavenProject mavenProject = new EMavenProjectProxy(Paths.get(projectDir));
 		//// @formatter:off
 		return JSON.transform(

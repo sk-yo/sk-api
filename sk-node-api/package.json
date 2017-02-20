@@ -11,5 +11,9 @@
 	],
 	"dependencies": {
 		"java": "^0.8.0"
-	}
+	},
+	"files" : [
+		"lib"
+	]
+	
 }
