@@ -1,8 +1,8 @@
 {
 	"name": "sk-node-api",
-	"description": "sk-node-api description",
-	"version": "1.0.0",
-	"main": "app.js",
+	"description": "API SK para nodejs",
+	"version": "0.0.2",
+	"main": "index.js",
 	"scripts": {
 		"start": "node app.js"
 	},
@@ -12,6 +12,7 @@
 	"dependencies": {
 		"java": "^0.8.0"
 	},
+	"author": "jcruz",
 	"files" : [
 		"lib"
 	]
