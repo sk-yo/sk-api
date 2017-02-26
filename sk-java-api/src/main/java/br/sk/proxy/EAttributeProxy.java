@@ -49,6 +49,15 @@ public class EAttributeProxy extends EAttribute {
 	}
 
 	@Override
+	public String getShortType() {
+		if (this.shortType == null) {
+			String[] shortType = this.javaField.getType().getFullyQualifiedName().split("\\.");
+			this.shortType = shortType[shortType.length - 1];
+		}
+		return this.shortType;
+	}
+
+	@Override
 	public Set<String> getModifiers() {
 		if (this.modifiers == null) {
 			this.modifiers = new HashSet<>(Arrays.asList(this.javaField.getModifiers()));
@@ -60,8 +69,7 @@ public class EAttributeProxy extends EAttribute {
 	public Map<Integer, String> getGenericTypes() {
 		if (this.genericTypes == null) {
 			this.genericTypes = new HashMap<>();
-			if (this.javaField.getType().getActualTypeArguments() != null
-					&& this.javaField.getType().getActualTypeArguments().length > 0) {
+			if (this.javaField.getType().getActualTypeArguments() != null && this.javaField.getType().getActualTypeArguments().length > 0) {
 				for (int i = 0; i < this.javaField.getType().getActualTypeArguments().length; i++) {
 					this.genericTypes.put(i, this.javaField.getType().getActualTypeArguments()[i].getValue());
 				}
@@ -69,7 +77,7 @@ public class EAttributeProxy extends EAttribute {
 		}
 		return this.genericTypes;
 	}
-	
+
 	@Override
 	public Set<EAnnotation> getAnnotations() {
 		if (this.annotations == null) {

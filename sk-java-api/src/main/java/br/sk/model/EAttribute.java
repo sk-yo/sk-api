@@ -32,6 +32,11 @@ public class EAttribute implements Serializable, Comparable<EAttribute> {
 	/**
 	 * 
 	 */
+	protected String shortType;
+
+	/**
+	 * 
+	 */
 	protected Set<String> modifiers;
 
 	/**
@@ -62,6 +67,14 @@ public class EAttribute implements Serializable, Comparable<EAttribute> {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getShortType() {
+		return shortType;
+	}
+
+	public void setShortType(String shortType) {
+		this.shortType = shortType;
 	}
 
 	public Set<String> getModifiers() {

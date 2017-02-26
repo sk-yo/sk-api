@@ -35,19 +35,19 @@ public class EPackageProxy extends EPackage {
 	}
 
 	@Override
-	public String getParentName() {
-		if (this.parentName == null) {
-			this.parentName = getName().substring(0, getName().lastIndexOf("."));
+	public String getClassParentPackageName() {
+		if (this.classParentPackageName == null) {
+			this.classParentPackageName = getName().substring(0, getName().lastIndexOf("."));
 		}
-		return this.parentName;
+		return this.classParentPackageName;
 	}
 
 	@Override
-	public String getParentDirectory() {
-		if (this.parentDirectory == null) {
-			this.parentDirectory = getParentName().replaceAll("\\.", "/");
+	public String getClassParentPackageDirectory() {
+		if (this.classParentPackageDirectory == null) {
+			this.classParentPackageDirectory = getClassParentPackageName().replaceAll("\\.", "/");
 		}
-		return this.parentDirectory;
+		return this.classParentPackageDirectory;
 	}
 
 }

@@ -19,9 +19,9 @@ public class EPackage implements Serializable {
 
 	protected String directory;
 
-	protected String parentName;
+	protected String classParentPackageName;
 
-	protected String parentDirectory;
+	protected String classParentPackageDirectory;
 
 	public EPackage() {
 		super();
@@ -39,12 +39,12 @@ public class EPackage implements Serializable {
 		return directory;
 	}
 
-	public String getParentName() {
-		return parentName;
+	public String getClassParentPackageName() {
+		return classParentPackageName;
 	}
 
-	public String getParentDirectory() {
-		return parentDirectory;
+	public String getClassParentPackageDirectory() {
+		return classParentPackageDirectory;
 	}
 
 }

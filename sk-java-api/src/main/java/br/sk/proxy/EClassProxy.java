@@ -33,7 +33,6 @@ public class EClassProxy extends EClass {
 	 */
 	private static final long serialVersionUID = 1L;
 
-
 	private JavaClass javaClass;
 
 	public EClassProxy(JavaClass javaClass) {
@@ -57,8 +56,6 @@ public class EClassProxy extends EClass {
 		}
 		return this.path;
 	}
-	
-	
 
 	@Override
 	public String getName() {
@@ -82,6 +79,17 @@ public class EClassProxy extends EClass {
 			this.classPackage = new EPackageProxy(javaClass.getPackage());
 		}
 		return this.classPackage;
+	}
+
+	@Override
+	public EAttribute getIdAttribute() {
+		if (this.idAttribute == null) {
+			Optional<EAttribute> idAttribute = getAttributes().stream()
+					.filter(attr -> attr.getAnnotations().stream().anyMatch((ann -> ann.getName().equals("javax.persistence.Id"))))
+					.findAny();
+			this.idAttribute = idAttribute.isPresent() ? idAttribute.get() : new EAttribute();
+		}
+		return this.idAttribute;
 	}
 
 	@Override

@@ -49,6 +49,11 @@ public class EClass implements Serializable, Comparable<EClass> {
 	/**
 	 * 
 	 */
+	protected EAttribute idAttribute;
+
+	/**
+	 * 
+	 */
 	// @JsonIgnore
 	protected Set<EAttribute> attributes;
 
@@ -106,6 +111,14 @@ public class EClass implements Serializable, Comparable<EClass> {
 
 	public void setClassPackage(EPackage classPackage) {
 		this.classPackage = classPackage;
+	}
+
+	public EAttribute getIdAttribute() {
+		return idAttribute;
+	}
+
+	public void setIdAttribute(EAttribute idAttribute) {
+		this.idAttribute = idAttribute;
 	}
 
 	public Set<EAttribute> getAttributes() {
