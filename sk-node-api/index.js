@@ -1,7 +1,7 @@
 var java  = require('java');
 var path = require('path');
 const _ = require('lodash');
-java.classpath.push(path.resolve(__dirname, 'lib/sk-java-api-1.0.2.jar'));
+java.classpath.push(path.resolve(__dirname, 'lib/sk-java-api-1.0.3.jar'));
 
 module.exports = {
 	findClassesByAnnotationName(name) {

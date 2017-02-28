@@ -4,7 +4,7 @@
   <groupId>br.sk</groupId>
   <artifactId>sk-java-api</artifactId>
   <name>sk-java-api</name>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <url>http://maven.apache.org</url>
   <build>
     <plugins>

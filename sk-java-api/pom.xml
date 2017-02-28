@@ -6,7 +6,7 @@
 
 	<groupId>br.sk</groupId>
 	<artifactId>sk-java-api</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<packaging>jar</packaging>
 
 	<name>sk-java-api</name>

@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaSource;
@@ -63,6 +65,14 @@ public class EClassProxy extends EClass {
 			this.name = this.javaClass.getName();
 		}
 		return this.name;
+	}
+
+	@Override
+	public String getInstanceName() {
+		if(this.instanceName == null) {
+			this.instanceName = StringUtils.uncapitalize(getName());
+		}
+		return this.instanceName;
 	}
 
 	@Override

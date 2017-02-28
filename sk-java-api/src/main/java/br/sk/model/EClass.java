@@ -39,6 +39,11 @@ public class EClass implements Serializable, Comparable<EClass> {
 	/**
 	 * 
 	 */
+	protected String instanceName;
+
+	/**
+	 * 
+	 */
 	protected String fullyQualifiedName;
 
 	/**
@@ -95,6 +100,14 @@ public class EClass implements Serializable, Comparable<EClass> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getInstanceName() {
+		return instanceName;
+	}
+
+	public void setInstanceName(String instanceName) {
+		this.instanceName = instanceName;
 	}
 
 	public String getFullyQualifiedName() {
