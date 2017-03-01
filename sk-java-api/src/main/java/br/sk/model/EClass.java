@@ -44,6 +44,11 @@ public class EClass implements Serializable, Comparable<EClass> {
 	/**
 	 * 
 	 */
+	protected String instanceStatement;
+
+	/**
+	 * 
+	 */
 	protected String fullyQualifiedName;
 
 	/**
@@ -61,6 +66,11 @@ public class EClass implements Serializable, Comparable<EClass> {
 	 */
 	// @JsonIgnore
 	protected Set<EAttribute> attributes;
+
+	/**
+	 * 
+	 */
+	protected Set<EAttribute> collectionAttributes;
 
 	/**
 	 * 
@@ -110,6 +120,14 @@ public class EClass implements Serializable, Comparable<EClass> {
 		this.instanceName = instanceName;
 	}
 
+	public String getInstanceStatement() {
+		return instanceStatement;
+	}
+
+	public void setInstanceStatement(String instanceStatement) {
+		this.instanceStatement = instanceStatement;
+	}
+
 	public String getFullyQualifiedName() {
 		return fullyQualifiedName;
 	}
@@ -140,6 +158,14 @@ public class EClass implements Serializable, Comparable<EClass> {
 
 	public void setAttributes(Set<EAttribute> attributes) {
 		this.attributes = attributes;
+	}
+
+	public Set<EAttribute> getCollectionAttributes() {
+		return collectionAttributes;
+	}
+
+	public void setCollectionAttributes(Set<EAttribute> collectionAttributes) {
+		this.collectionAttributes = collectionAttributes;
 	}
 
 	public Set<EMethod> getMethods() {

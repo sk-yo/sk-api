@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.thoughtworks.qdox.model.JavaField;
 
 import br.sk.model.EAnnotation;
@@ -38,6 +40,22 @@ public class EAttributeProxy extends EAttribute {
 			this.name = this.javaField.getName();
 		}
 		return this.name;
+	}
+
+	@Override
+	public String getGetterName() {
+		if (this.getterName == null) {
+			this.getterName = String.format("get%s", StringUtils.capitalize(this.getName()));
+		}
+		return this.getterName;
+	}
+
+	@Override
+	public String getSetterName() {
+		if (this.setterName == null) {
+			this.setterName = String.format("set%s", StringUtils.capitalize(this.getName()));
+		}
+		return this.setterName;
 	}
 
 	@Override
@@ -89,6 +107,16 @@ public class EAttributeProxy extends EAttribute {
 			// @formatter:on
 		}
 		return this.annotations;
+	}
+
+	@Override
+	public boolean isCollectionAttribute() {
+		return Arrays.asList("List", "Collection", "Set").contains(this.getShortType());
+	}
+
+	@Override
+	public boolean isIdAttribute() {
+		return this.getAnnotations().stream().anyMatch(ann -> ann.getName().equals("javax.persistence.Id"));
 	}
 
 }

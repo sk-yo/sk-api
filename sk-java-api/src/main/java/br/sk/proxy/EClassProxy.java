@@ -69,7 +69,7 @@ public class EClassProxy extends EClass {
 
 	@Override
 	public String getInstanceName() {
-		if(this.instanceName == null) {
+		if (this.instanceName == null) {
 			this.instanceName = StringUtils.uncapitalize(getName());
 		}
 		return this.instanceName;
@@ -81,6 +81,14 @@ public class EClassProxy extends EClass {
 			this.fullyQualifiedName = this.javaClass.getFullyQualifiedName();
 		}
 		return this.fullyQualifiedName;
+	}
+
+	@Override
+	public String getInstanceStatement() {
+		if (this.instanceStatement == null) {
+			this.instanceStatement = String.format("%s %s = new %s();", getName(), getInstanceName(), getName());
+		}
+		return this.instanceStatement;
 	}
 
 	@Override
@@ -107,13 +115,27 @@ public class EClassProxy extends EClass {
 		if (this.attributes == null) {
 			// @formatter:off
 			this.attributes = Arrays.asList(javaClass.getFields())
-				.stream()	
+				.stream()
 				.map(EAttributeProxy::new)
 				.collect(Collectors.toSet());
 			// @formatter:on
 		}
 		return this.attributes;
 
+	}
+
+	@Override
+	public Set<EAttribute> getCollectionAttributes() {
+		if (this.collectionAttributes == null) {
+			//// @formatter:off
+			this.collectionAttributes = getAttributes().stream()
+						.filter(attr -> attr.getAnnotations().stream().noneMatch((ann -> ann.getName().equals("javax.persistence.Id"))))
+						.filter(attr -> Arrays.asList("List", "Collection", "Set").contains(attr.getShortType()))
+						.collect(Collectors.toSet());
+			// @formatter:on
+
+		}
+		return this.collectionAttributes;
 	}
 
 	@Override

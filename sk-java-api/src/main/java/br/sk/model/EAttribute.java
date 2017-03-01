@@ -27,6 +27,16 @@ public class EAttribute implements Serializable, Comparable<EAttribute> {
 	/**
 	 * 
 	 */
+	protected String getterName;
+
+	/**
+	 * 
+	 */
+	protected String setterName;
+
+	/**
+	 * 
+	 */
 	protected String type;
 
 	/**
@@ -49,6 +59,16 @@ public class EAttribute implements Serializable, Comparable<EAttribute> {
 	 */
 	protected Set<EAnnotation> annotations;
 
+	/**
+	 * 
+	 */
+	protected boolean collectionAttribute;
+
+	/**
+	 * 
+	 */
+	protected boolean idAttribute;
+
 	public EAttribute() {
 		super();
 	}
@@ -59,6 +79,22 @@ public class EAttribute implements Serializable, Comparable<EAttribute> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getGetterName() {
+		return getterName;
+	}
+
+	public void setGetterName(String getterName) {
+		this.getterName = getterName;
+	}
+
+	public String getSetterName() {
+		return setterName;
+	}
+
+	public void setSetterName(String setterName) {
+		this.setterName = setterName;
 	}
 
 	public String getType() {
@@ -99,6 +135,22 @@ public class EAttribute implements Serializable, Comparable<EAttribute> {
 
 	public void setAnnotations(Set<EAnnotation> annotations) {
 		this.annotations = annotations;
+	}
+
+	public boolean isCollectionAttribute() {
+		return collectionAttribute;
+	}
+
+	public void setCollectionAttribute(boolean collectionAttribute) {
+		this.collectionAttribute = collectionAttribute;
+	}
+
+	public boolean isIdAttribute() {
+		return idAttribute;
+	}
+
+	public void setIdAttribute(boolean idAttribute) {
+		this.idAttribute = idAttribute;
 	}
 
 	@Override
