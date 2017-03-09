@@ -17,7 +17,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public String getName() {
-		return null;
+		return javaField.getName();
 	}
 
 	@Override

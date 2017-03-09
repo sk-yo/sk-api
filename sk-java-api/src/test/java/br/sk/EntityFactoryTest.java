@@ -12,6 +12,7 @@ public class EntityFactoryTest {
 		Entity entity = EntityFactory.create("src/test/java/br/sk/model/Foo.java");
 		System.out.println("NOME: " + entity.getName());
 		System.out.println("NOME QUALIFICADO: " + entity.getFullyQualifiedName());
+		entity.getAttributes().forEach(attr -> System.out.println(attr.getName()));
 	}
 
 }

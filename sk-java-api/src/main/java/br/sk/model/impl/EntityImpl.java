@@ -1,6 +1,8 @@
 package br.sk.model.impl;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,6 +14,8 @@ import br.sk.model.jpa.EntityAttribute;
 public class EntityImpl implements Entity {
 
 	private JavaClass javaClass;
+
+	private Set<EntityAttribute> attributes;
 
 	public EntityImpl(JavaClass javaClass) {
 		super();
@@ -45,7 +49,15 @@ public class EntityImpl implements Entity {
 
 	@Override
 	public Set<EntityAttribute> getAttributes() {
-		return null;
+		if(attributes == null) {
+			//// @formatter:off
+			this.attributes = Arrays.asList(javaClass.getFields())
+								.stream()
+								.map(EntityAttributeImpl::new)
+								.collect(Collectors.toSet());
+			// @formatter:on
+		}
+		return this.attributes;
 	}
 
 }
