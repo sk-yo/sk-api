@@ -1,5 +1,8 @@
 package br.sk.model.impl;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 
 import br.sk.model.jpa.EntityAttribute;
@@ -22,12 +25,12 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public String getGetterName() {
-		return null;
+		return String.format("get%s", StringUtils.capitalize(javaField.getName()));
 	}
 
 	@Override
 	public String getSetterName() {
-		return null;
+		return String.format("set%s", StringUtils.capitalize(javaField.getName()));
 	}
 
 	@Override
@@ -42,7 +45,8 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public String getLabel() {
-		return null;
+		DocletTag label = javaField.getTagByName("label");
+		return label != null ? label.getParameters()[0] : "";
 	}
 
 	@Override
