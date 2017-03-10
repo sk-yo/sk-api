@@ -4,27 +4,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.thoughtworks.qdox.model.Annotation;
+import com.thoughtworks.qdox.model.JavaAnnotation;
 
 import br.sk.model.core.EAnnotation;
 
 public class EAnnotationImpl implements EAnnotation {
 
-	private Annotation annotation;
+	private JavaAnnotation annotation;
 
 	protected Map<String, String> parameters;
 
-	public EAnnotationImpl(Annotation annotation) {
+	public EAnnotationImpl(JavaAnnotation annotation) {
 		super();
 		this.annotation = annotation;
 	}
 
 	@Override
 	public String getName() {
-		return annotation.getType().getValue();
+		return annotation.getType().getName();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Map<String, String> getParameters() {
 		if (this.parameters == null) {

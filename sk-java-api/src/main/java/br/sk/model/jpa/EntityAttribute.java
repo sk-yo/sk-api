@@ -80,6 +80,7 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
-	Map<Integer, Entity> getGenericTypes();
+	/*
+	Map<Integer, Entity> getGenericTypes();*/
 
 }

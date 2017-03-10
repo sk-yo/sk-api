@@ -4,26 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import com.thoughtworks.qdox.JavaDocBuilder;
-import com.thoughtworks.qdox.model.JavaClass;
-import com.thoughtworks.qdox.model.JavaSource;
+import com.thoughtworks.qdox.JavaProjectBuilder;
 
 import br.sk.model.impl.EntityImpl;
 import br.sk.model.jpa.Entity;
 
 public class EntityFactory {
 
-	/**
-	 * 
-	 * @param path
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 */
-	public static Entity create(String path) throws FileNotFoundException, IOException {
-		JavaDocBuilder doc = new JavaDocBuilder();
-		JavaSource source = doc.addSource(new File(path));
-		JavaClass javaClass = source.getClasses()[0];
-		return new EntityImpl(javaClass);
+	public static Entity create(String path, String className) throws FileNotFoundException, IOException {
+		JavaProjectBuilder builder = new JavaProjectBuilder();
+		builder.addSourceFolder(new File(path));
+		return new EntityImpl(builder.getClassByName(className));
 	}
 }

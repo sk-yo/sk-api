@@ -1,6 +1,5 @@
 package br.sk.model.impl;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -33,38 +32,66 @@ public class EntityAttributeImpl implements EntityAttribute {
 		super();
 		this.javaField = javaField;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getName()
+	 */
 	@Override
 	public String getName() {
 		return javaField.getName();
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getGetterName()
+	 */
 	@Override
 	public String getGetterName() {
 		return String.format("get%s", StringUtils.capitalize(javaField.getName()));
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getSetterName()
+	 */
 	@Override
 	public String getSetterName() {
 		return String.format("set%s", StringUtils.capitalize(javaField.getName()));
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getSingularName()
+	 */
 	@Override
 	public String getSingularName() {
 		return null;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#isId()
+	 */
 	@Override
 	public boolean isId() {
-		return this.getAnnotations().stream().anyMatch(ann -> ann.getName().equals("javax.persistence.Id"));
+		return this.getAnnotations().stream().anyMatch(ann -> ann.getName().equals("Id"));
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getLabel()
+	 */
 	@Override
 	public String getLabel() {
 		DocletTag label = javaField.getTagByName("label");
-		return label != null ? label.getParameters()[0] : "";
+		return label != null ? label.getParameters().get(0) : "";
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getColumnName()
+	 */
 	@Override
 	public String getColumnName() {
 		//// @formatter:off
@@ -76,28 +103,44 @@ public class EntityAttributeImpl implements EntityAttribute {
 		// @formatter:on
 
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getMultiplicityType()
+	 */
 	@Override
 	public MultiplicityType getMultiplicityType() {
 		return this.getAnnotations().stream().filter(ann -> multiplicityTypes.containsKey(ann.getName())).findFirst()
 				.map(ann -> multiplicityTypes.get(ann.getName())).orElse(MultiplicityType.NONE);
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getRelationshipType()
+	 */
 	@Override
 	public RelationshipType getRelationshipType() {
 		return null;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#isUnidirecional()
+	 */
 	@Override
 	public boolean isUnidirecional() {
 		return false;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getAnnotations()
+	 */
 	@Override
 	public Set<EAnnotation> getAnnotations() {
 		if (this.annotations == null) {
 			//// @formatter:off
-			this.annotations = Arrays.asList(javaField.getAnnotations())
+			this.annotations = javaField.getAnnotations()
 									.stream()
 									.map(EAnnotationImpl::new)
 									.collect(Collectors.toSet());
@@ -106,7 +149,12 @@ public class EntityAttributeImpl implements EntityAttribute {
 		}
 		return this.annotations;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see br.sk.model.jpa.EntityAttribute#getGenericTypes()
+	 */
+	/*
 	@Override
 	public Map<Integer, Entity> getGenericTypes() {
 		if (this.genericTypes == null) {
@@ -118,14 +166,14 @@ public class EntityAttributeImpl implements EntityAttribute {
 			}
 		}
 		return this.genericTypes;
-	}
+	}*/
 
 	private Map<String, MultiplicityType> createMultiplicityType() {
 		Map<String, MultiplicityType> multiplicityTypes = new HashMap<>();
-		multiplicityTypes.put("javax.persistence.OneToMany", MultiplicityType.ONE_TO_MANY);
-		multiplicityTypes.put("javax.persistence.OneToOne", MultiplicityType.ONE_TO_ONE);
-		multiplicityTypes.put("javax.persistence.ManyToMany", MultiplicityType.MANY_TO_MANY);
-		multiplicityTypes.put("javax.persistence.ManyToOne", MultiplicityType.MANY_TO_ONE);
+		multiplicityTypes.put("OneToMany", MultiplicityType.ONE_TO_MANY);
+		multiplicityTypes.put("OneToOne", MultiplicityType.ONE_TO_ONE);
+		multiplicityTypes.put("ManyToMany", MultiplicityType.MANY_TO_MANY);
+		multiplicityTypes.put("ManyToOne", MultiplicityType.MANY_TO_ONE);
 		return multiplicityTypes;
 	}
 

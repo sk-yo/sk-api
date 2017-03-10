@@ -1,6 +1,5 @@
 package br.sk.model.impl;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,7 +11,7 @@ import com.thoughtworks.qdox.model.JavaClass;
 import br.sk.model.jpa.Entity;
 import br.sk.model.jpa.EntityAttribute;
 
-@JsonIgnoreProperties(ignoreUnknown= true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EntityImpl implements Entity {
 
 	private JavaClass javaClass;
@@ -24,36 +23,66 @@ public class EntityImpl implements Entity {
 		this.javaClass = javaClass;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.Entity#getName()
+	 */
 	@Override
 	public String getName() {
 		return javaClass.getName();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.Entity#getInstanceName()
+	 */
 	@Override
 	public String getInstanceName() {
 		return StringUtils.uncapitalize(javaClass.getName());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.Entity#getPluralizedInstanceName()
+	 */
 	@Override
 	public String getPluralizedInstanceName() {
 		return javaClass.getName().concat("s");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.Entity#getFullyQualifiedName()
+	 */
 	@Override
 	public String getFullyQualifiedName() {
 		return javaClass.getFullyQualifiedName();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.Entity#getTableName()
+	 */
 	@Override
 	public String getTableName() {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.Entity#getAttributes()
+	 */
 	@Override
 	public Set<EntityAttribute> getAttributes() {
 		if (this.attributes == null) {
 			//// @formatter:off
-			this.attributes = Arrays.asList(javaClass.getFields())
+			this.attributes = javaClass.getFields()
 								.stream()
 								.map(EntityAttributeImpl::new)
 								.collect(Collectors.toSet());

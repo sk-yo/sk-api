@@ -12,10 +12,10 @@ import br.sk.model.jpa.Entity;
 public class EntityFactoryTest {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		Entity entity = EntityFactory.create("src/test/java/br/sk/model/Foo.java");
+		Entity entity = EntityFactory.create("src/test/java", "br.sk.model.Foo");
 		System.out.println("NOME: " + entity.getName());
 		System.out.println("NOME QUALIFICADO: " + entity.getFullyQualifiedName());
-		/*
+
 		entity.getAttributes().forEach(attr -> {
 			System.out.println("ATTRIBUTE NAME: " + attr.getName());
 			System.out.println("ATTRIBUTE IS_ID: " + attr.isId());
@@ -23,8 +23,8 @@ public class EntityFactoryTest {
 			System.out.println("ATTRIBUTE SETTER NAME: " + attr.getSetterName());
 			System.out.println("ATTRIBUTE LABEL: " + attr.getLabel());
 			System.out.println("*********************************");
-		});*/
-		
+		});
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
 		System.out.println(entity);
