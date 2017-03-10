@@ -1,8 +1,11 @@
 package br.sk.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Bar {
@@ -16,6 +19,9 @@ public class Bar {
 	 */
 	@Column(name = "LAST_NAME")
 	private String lastName;
+
+	@ManyToMany
+	private List<Foo> foos;
 
 	public Long getId() {
 		return id;
@@ -31,6 +37,14 @@ public class Bar {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public List<Foo> getFoos() {
+		return foos;
+	}
+
+	public void setFoos(List<Foo> foos) {
+		this.foos = foos;
 	}
 
 }

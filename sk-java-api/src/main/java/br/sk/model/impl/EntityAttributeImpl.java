@@ -13,6 +13,7 @@ import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 
 import br.sk.model.core.EAnnotation;
+import br.sk.model.jpa.Entity;
 import br.sk.model.jpa.EntityAttribute;
 import br.sk.model.jpa.enums.MultiplicityType;
 import br.sk.model.jpa.enums.RelationshipType;
@@ -25,6 +26,8 @@ public class EntityAttributeImpl implements EntityAttribute {
 	private Set<EAnnotation> annotations;
 
 	private Map<String, MultiplicityType> multiplicityTypes = createMultiplicityType();
+
+	private Map<Integer, Entity> genericTypes;
 
 	public EntityAttributeImpl(JavaField javaField) {
 		super();
@@ -76,11 +79,8 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public MultiplicityType getMultiplicityType() {
-		return this.getAnnotations().stream()
-					.filter(ann -> multiplicityTypes.containsKey(ann.getName()))
-					.findFirst()
-					.map(ann -> multiplicityTypes.get(ann.getName()))
-					.orElse(MultiplicityType.NONE);
+		return this.getAnnotations().stream().filter(ann -> multiplicityTypes.containsKey(ann.getName())).findFirst()
+				.map(ann -> multiplicityTypes.get(ann.getName())).orElse(MultiplicityType.NONE);
 	}
 
 	@Override
@@ -105,6 +105,19 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 		}
 		return this.annotations;
+	}
+
+	@Override
+	public Map<Integer, Entity> getGenericTypes() {
+		if (this.genericTypes == null) {
+			this.genericTypes = new HashMap<>();
+			if (this.javaField.getType().getActualTypeArguments() != null && this.javaField.getType().getActualTypeArguments().length > 0) {
+				for (int i = 0; i < this.javaField.getType().getActualTypeArguments().length; i++) {
+					this.genericTypes.put(i, new EntityImpl(this.javaField.getType().getActualTypeArguments()[i].getJavaClass()));
+				}
+			}
+		}
+		return this.genericTypes;
 	}
 
 	private Map<String, MultiplicityType> createMultiplicityType() {

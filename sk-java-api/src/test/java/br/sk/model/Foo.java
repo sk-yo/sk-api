@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Foo implements Serializable {
@@ -26,7 +26,7 @@ public class Foo implements Serializable {
 	@Column(name = "NAME")
 	private String name;
 
-	@OneToMany
+	@ManyToMany
 	private List<Bar> bars;
 
 	public Long getId() {

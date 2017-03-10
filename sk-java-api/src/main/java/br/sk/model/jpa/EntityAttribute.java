@@ -1,5 +1,6 @@
 package br.sk.model.jpa;
 
+import java.util.Map;
 import java.util.Set;
 
 import br.sk.model.core.EAnnotation;
@@ -74,5 +75,11 @@ public interface EntityAttribute {
 	 * @return
 	 */
 	Set<EAnnotation> getAnnotations();
+		
+	/**
+	 * 
+	 * @return
+	 */
+	Map<Integer, Entity> getGenericTypes();
 
 }
