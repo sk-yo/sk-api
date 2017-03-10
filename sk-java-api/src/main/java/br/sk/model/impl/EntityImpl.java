@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
 
 import br.sk.model.jpa.Entity;
@@ -18,9 +20,19 @@ public class EntityImpl implements Entity {
 
 	private Set<EntityAttribute> attributes;
 
-	public EntityImpl(JavaClass javaClass) {
+	@JsonIgnore
+	private JavaProjectBuilder builder;
+
+	public EntityImpl(JavaProjectBuilder builder, JavaClass javaClass) {
 		super();
+		this.builder = builder;
 		this.javaClass = javaClass;
+
+	}
+
+	@Override
+	public JavaProjectBuilder getBuilder() {
+		return this.builder;
 	}
 
 	/*

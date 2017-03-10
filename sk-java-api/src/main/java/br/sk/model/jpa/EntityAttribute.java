@@ -1,12 +1,14 @@
 package br.sk.model.jpa;
 
-import java.util.Map;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import br.sk.model.core.EAnnotation;
 import br.sk.model.jpa.enums.MultiplicityType;
 import br.sk.model.jpa.enums.RelationshipType;
 
+@JsonPropertyOrder(value = { "name", "label", "getterName", "setterName" })
 public interface EntityAttribute {
 
 	/**
@@ -45,6 +47,12 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
+	boolean isList();
+
+	/**
+	 * 
+	 * @return
+	 */
 	String getLabel();
 
 	/**
@@ -75,12 +83,12 @@ public interface EntityAttribute {
 	 * @return
 	 */
 	Set<EAnnotation> getAnnotations();
-		
+
 	/**
 	 * 
 	 * @return
 	 */
-	/*
-	Map<Integer, Entity> getGenericTypes();*/
+
+	Entity getGenericType();
 
 }

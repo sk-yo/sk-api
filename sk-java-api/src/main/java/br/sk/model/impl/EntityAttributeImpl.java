@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 
@@ -17,7 +16,6 @@ import br.sk.model.jpa.EntityAttribute;
 import br.sk.model.jpa.enums.MultiplicityType;
 import br.sk.model.jpa.enums.RelationshipType;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class EntityAttributeImpl implements EntityAttribute {
 
 	private JavaField javaField;
@@ -26,60 +24,69 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	private Map<String, MultiplicityType> multiplicityTypes = createMultiplicityType();
 
-	private Map<Integer, Entity> genericTypes;
-
 	public EntityAttributeImpl(JavaField javaField) {
 		super();
 		this.javaField = javaField;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getName()
 	 */
 	@Override
 	public String getName() {
 		return javaField.getName();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getGetterName()
 	 */
 	@Override
 	public String getGetterName() {
 		return String.format("get%s", StringUtils.capitalize(javaField.getName()));
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getSetterName()
 	 */
 	@Override
 	public String getSetterName() {
 		return String.format("set%s", StringUtils.capitalize(javaField.getName()));
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getSingularName()
 	 */
 	@Override
 	public String getSingularName() {
 		return null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#isId()
 	 */
 	@Override
 	public boolean isId() {
 		return this.getAnnotations().stream().anyMatch(ann -> ann.getName().equals("Id"));
 	}
-	
+
+	@Override
+	public boolean isList() {
+		return this.javaField.getType().getGenericValue().startsWith("List");
+	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getLabel()
 	 */
 	@Override
@@ -87,9 +94,10 @@ public class EntityAttributeImpl implements EntityAttribute {
 		DocletTag label = javaField.getTagByName("label");
 		return label != null ? label.getParameters().get(0) : "";
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getColumnName()
 	 */
 	@Override
@@ -103,37 +111,46 @@ public class EntityAttributeImpl implements EntityAttribute {
 		// @formatter:on
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getMultiplicityType()
 	 */
 	@Override
 	public MultiplicityType getMultiplicityType() {
-		return this.getAnnotations().stream().filter(ann -> multiplicityTypes.containsKey(ann.getName())).findFirst()
-				.map(ann -> multiplicityTypes.get(ann.getName())).orElse(MultiplicityType.NONE);
+		//// @formatter:off
+		return this.getAnnotations().stream()
+				.filter(ann -> multiplicityTypes.containsKey(ann.getName()))
+				.findFirst()
+				.map(ann -> multiplicityTypes.get(ann.getName()))
+				.orElse(MultiplicityType.NONE);
+		// @formatter:on
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getRelationshipType()
 	 */
 	@Override
 	public RelationshipType getRelationshipType() {
 		return null;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#isUnidirecional()
 	 */
 	@Override
 	public boolean isUnidirecional() {
 		return false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getAnnotations()
 	 */
 	@Override
@@ -149,24 +166,29 @@ public class EntityAttributeImpl implements EntityAttribute {
 		}
 		return this.annotations;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getGenericTypes()
 	 */
-	/*
+
 	@Override
-	public Map<Integer, Entity> getGenericTypes() {
-		if (this.genericTypes == null) {
-			this.genericTypes = new HashMap<>();
-			if (this.javaField.getType().getActualTypeArguments() != null && this.javaField.getType().getActualTypeArguments().length > 0) {
-				for (int i = 0; i < this.javaField.getType().getActualTypeArguments().length; i++) {
-					this.genericTypes.put(i, new EntityImpl(this.javaField.getType().getActualTypeArguments()[i].getJavaClass()));
-				}
-			}
-		}
-		return this.genericTypes;
-	}*/
+	public Entity getGenericType() {
+		/*
+		 * if (this.genericTypes == null) { this.genericTypes = new HashMap<>();
+		 * if (this.javaField.getType().getActualTypeArguments() != null &&
+		 * this.javaField.getType().getActualTypeArguments().length > 0) { for
+		 * (int i = 0; i <
+		 * this.javaField.getType().getActualTypeArguments().length; i++) {
+		 * this.genericTypes.put(i, new
+		 * EntityImpl(this.javaField.getType().getActualTypeArguments()[i].
+		 * getJavaClass())); } } }
+		 */
+		// System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+		// System.out.println(this.javaField.getType().getGenericCanonicalName());
+		return null;
+	}
 
 	private Map<String, MultiplicityType> createMultiplicityType() {
 		Map<String, MultiplicityType> multiplicityTypes = new HashMap<>();

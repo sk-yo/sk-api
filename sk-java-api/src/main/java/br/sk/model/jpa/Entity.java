@@ -2,13 +2,23 @@ package br.sk.model.jpa;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.thoughtworks.qdox.JavaProjectBuilder;
+
 /**
  * Representação de uma entidade JPA.
  * 
  * @author jcruz
  *
  */
+@JsonPropertyOrder(value = { "name", "fullyQualifiedName", "instanceName", "pluralizedInstanceName" })
 public interface Entity {
+
+	/**
+	 * 
+	 * @return
+	 */
+	JavaProjectBuilder getBuilder();
 
 	/**
 	 * Nome da classe.

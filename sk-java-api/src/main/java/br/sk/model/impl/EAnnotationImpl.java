@@ -32,7 +32,7 @@ public class EAnnotationImpl implements EAnnotation {
 				Iterator<String> keys = annotation.getNamedParameterMap().keySet().iterator();
 				while (keys.hasNext()) {
 					String key = keys.next();
-					this.parameters.put(key, String.valueOf(this.annotation.getNamedParameter(key)).replaceAll("\"", ""));
+					this.parameters.put(key, String.valueOf(this.annotation.getNamedParameter(key)).replaceAll("\"", "").trim());
 				}
 			}
 		}

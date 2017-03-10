@@ -14,6 +14,6 @@ public class EntityFactory {
 	public static Entity create(String path, String className) throws FileNotFoundException, IOException {
 		JavaProjectBuilder builder = new JavaProjectBuilder();
 		builder.addSourceFolder(new File(path));
-		return new EntityImpl(builder.getClassByName(className));
+		return new EntityImpl(builder, builder.getClassByName(className));
 	}
 }
