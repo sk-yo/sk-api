@@ -1,6 +1,8 @@
 package br.sk.model.impl;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,12 +17,14 @@ import br.sk.model.jpa.EntityAttribute;
 import br.sk.model.jpa.enums.MultiplicityType;
 import br.sk.model.jpa.enums.RelationshipType;
 
-@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.NONE)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class EntityAttributeImpl implements EntityAttribute {
 
 	private JavaField javaField;
 
 	private Set<EAnnotation> annotations;
+
+	private Map<String, MultiplicityType> multiplicityTypes = createMultiplicityType();
 
 	public EntityAttributeImpl(JavaField javaField) {
 		super();
@@ -67,12 +71,16 @@ public class EntityAttributeImpl implements EntityAttribute {
 				.map(ann -> ann.getName())
 				.orElse("");
 		// @formatter:on
-		
+
 	}
 
 	@Override
 	public MultiplicityType getMultiplicityType() {
-		return null;
+		return this.getAnnotations().stream()
+					.filter(ann -> multiplicityTypes.containsKey(ann.getName()))
+					.findFirst()
+					.map(ann -> multiplicityTypes.get(ann.getName()))
+					.orElse(MultiplicityType.NONE);
 	}
 
 	@Override
@@ -84,8 +92,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	public boolean isUnidirecional() {
 		return false;
 	}
-	
-	
+
 	@Override
 	public Set<EAnnotation> getAnnotations() {
 		if (this.annotations == null) {
@@ -95,9 +102,18 @@ public class EntityAttributeImpl implements EntityAttribute {
 									.map(EAnnotationImpl::new)
 									.collect(Collectors.toSet());
 			// @formatter:on
-								
+
 		}
 		return this.annotations;
+	}
+
+	private Map<String, MultiplicityType> createMultiplicityType() {
+		Map<String, MultiplicityType> multiplicityTypes = new HashMap<>();
+		multiplicityTypes.put("javax.persistence.OneToMany", MultiplicityType.ONE_TO_MANY);
+		multiplicityTypes.put("javax.persistence.OneToOne", MultiplicityType.ONE_TO_ONE);
+		multiplicityTypes.put("javax.persistence.ManyToMany", MultiplicityType.MANY_TO_MANY);
+		multiplicityTypes.put("javax.persistence.ManyToOne", MultiplicityType.MANY_TO_ONE);
+		return multiplicityTypes;
 	}
 
 }

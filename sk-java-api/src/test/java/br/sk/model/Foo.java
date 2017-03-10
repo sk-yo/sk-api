@@ -1,10 +1,12 @@
 package br.sk.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Foo implements Serializable {
@@ -16,13 +18,16 @@ public class Foo implements Serializable {
 
 	@Id
 	private Long id;
-	
+
 	/**
 	 * 
 	 * @label Nome
 	 */
-	@Column(name="NAME")
+	@Column(name = "NAME")
 	private String name;
+
+	@OneToMany
+	private List<Bar> bars;
 
 	public Long getId() {
 		return id;
