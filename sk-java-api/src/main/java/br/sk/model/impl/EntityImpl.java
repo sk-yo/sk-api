@@ -6,11 +6,13 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.thoughtworks.qdox.model.JavaClass;
 
 import br.sk.model.jpa.Entity;
 import br.sk.model.jpa.EntityAttribute;
 
+@JsonIgnoreProperties(ignoreUnknown= true)
 public class EntityImpl implements Entity {
 
 	private JavaClass javaClass;
@@ -49,7 +51,7 @@ public class EntityImpl implements Entity {
 
 	@Override
 	public Set<EntityAttribute> getAttributes() {
-		if(attributes == null) {
+		if (this.attributes == null) {
 			//// @formatter:off
 			this.attributes = Arrays.asList(javaClass.getFields())
 								.stream()

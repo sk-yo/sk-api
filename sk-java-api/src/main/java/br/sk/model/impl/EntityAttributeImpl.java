@@ -1,17 +1,26 @@
 package br.sk.model.impl;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 
+import br.sk.model.core.EAnnotation;
 import br.sk.model.jpa.EntityAttribute;
 import br.sk.model.jpa.enums.MultiplicityType;
 import br.sk.model.jpa.enums.RelationshipType;
 
+@JsonAutoDetect(fieldVisibility=JsonAutoDetect.Visibility.NONE)
 public class EntityAttributeImpl implements EntityAttribute {
 
 	private JavaField javaField;
+
+	private Set<EAnnotation> annotations;
 
 	public EntityAttributeImpl(JavaField javaField) {
 		super();
@@ -40,7 +49,8 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public boolean isId() {
-		return false;
+		//return this.getAnnotations().stream().anyMatch(ann -> ann.getType().getValue().equals("javax.persistence.Id"));
+		return true;
 	}
 
 	@Override
@@ -67,6 +77,19 @@ public class EntityAttributeImpl implements EntityAttribute {
 	@Override
 	public boolean isUnidirecional() {
 		return false;
+	}
+	
+	
+	@Override
+	public Set<EAnnotation> getAnnotations() {
+		if (this.annotations == null) {
+			this.annotations = Arrays.asList(javaField.getAnnotations())
+									.stream()
+									.map(EAnnotationImpl::new)
+									.collect(Collectors.toSet());
+								
+		}
+		return this.annotations;
 	}
 
 }

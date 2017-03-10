@@ -1,5 +1,8 @@
 package br.sk.model.jpa;
 
+import java.util.Set;
+
+import br.sk.model.core.EAnnotation;
 import br.sk.model.jpa.enums.MultiplicityType;
 import br.sk.model.jpa.enums.RelationshipType;
 
@@ -65,5 +68,11 @@ public interface EntityAttribute {
 	 * @return
 	 */
 	boolean isUnidirecional();
+
+	/**
+	 * 
+	 * @return
+	 */
+	Set<EAnnotation> getAnnotations();
 
 }
