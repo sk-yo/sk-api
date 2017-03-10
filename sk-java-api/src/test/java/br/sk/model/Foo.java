@@ -21,7 +21,7 @@ public class Foo implements Serializable {
 	 * 
 	 * @label Nome
 	 */
-	@Column
+	@Column(name="NAME")
 	private String name;
 
 	public Long getId() {

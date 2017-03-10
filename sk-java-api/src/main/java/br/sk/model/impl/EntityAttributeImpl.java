@@ -49,8 +49,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public boolean isId() {
-		//return this.getAnnotations().stream().anyMatch(ann -> ann.getType().getValue().equals("javax.persistence.Id"));
-		return true;
+		return this.getAnnotations().stream().anyMatch(ann -> ann.getName().equals("javax.persistence.Id"));
 	}
 
 	@Override
@@ -61,7 +60,14 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public String getColumnName() {
-		return null;
+		//// @formatter:off
+		return this.getAnnotations().stream()
+				.filter(ann -> ann.getName().equals("javax.persistence.Column"))
+				.findFirst()
+				.map(ann -> ann.getName())
+				.orElse("");
+		// @formatter:on
+		
 	}
 
 	@Override
@@ -83,10 +89,12 @@ public class EntityAttributeImpl implements EntityAttribute {
 	@Override
 	public Set<EAnnotation> getAnnotations() {
 		if (this.annotations == null) {
+			//// @formatter:off
 			this.annotations = Arrays.asList(javaField.getAnnotations())
 									.stream()
 									.map(EAnnotationImpl::new)
 									.collect(Collectors.toSet());
+			// @formatter:on
 								
 		}
 		return this.annotations;
