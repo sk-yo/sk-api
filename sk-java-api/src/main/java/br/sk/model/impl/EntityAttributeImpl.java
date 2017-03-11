@@ -3,6 +3,8 @@ package br.sk.model.impl;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,7 +15,6 @@ import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 
 import br.sk.model.Annotation;
-import br.sk.model.Entity;
 import br.sk.model.EntityAttribute;
 
 public class EntityAttributeImpl implements EntityAttribute {
@@ -275,13 +276,15 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public LinkedList<String> getCascadeType() {
-
+		//// @formatter:off
 		return this.javaField.getAnnotations().stream()
 				.filter(ann -> Arrays.asList("OneToMany", "OneToOne", "ManyToOne", "ManyToMany").contains(ann.getType().getName()))
-				.filter(ann -> ann.getNamedParameter("cascade") != null).findFirst()
-				.map(ann -> this.resolveCascadeType(ann.getNamedParameter("cascade"))).orElse(null);
+				.filter(ann -> ann.getNamedParameter("cascade") != null)
+				.findFirst()
+				.map(ann -> this.resolveCascadeType(ann.getNamedParameter("cascade")))
+				.orElse(null);
+		// @formatter:on
 
-		// return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -290,6 +293,11 @@ public class EntityAttributeImpl implements EntityAttribute {
 			return new LinkedList<>(Arrays.asList((String) cascade));
 		}
 		return (LinkedList<String>) cascade;
+	}
+
+	@Override
+	public boolean hasCascade() {
+		return this.getCascadeType() != null;
 	}
 
 	/*
@@ -369,7 +377,14 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 */
 
 	@Override
-	public Entity getGenericType() {
+	public String getGenericType() {
+		if (this.javaField.getType().getName().equals("List")) {
+			Pattern pattern = Pattern.compile("List<([a-zA-Z]+)>");
+			Matcher m = pattern.matcher(this.javaField.getType().getGenericValue());
+			if (m.find()) {
+				return m.group(1);
+			}
+		}
 		return null;
 	}
 

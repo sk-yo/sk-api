@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 
-@JsonPropertyOrder(alphabetic = true)
+@JsonPropertyOrder(value = { "name" })
 public interface EntityAttribute {
 
 	JavaProjectBuilder getBuilder();
@@ -121,7 +121,7 @@ public interface EntityAttribute {
 	 * @return
 	 */
 	String getMappedBy();
-	
+
 	/**
 	 * 
 	 * @return
@@ -175,6 +175,13 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
+	@JsonProperty("hasCascade")
+	boolean hasCascade();
+
+	/**
+	 * 
+	 * @return
+	 */
 	@JsonIgnore
 	Set<Annotation> getAnnotations();
 
@@ -182,6 +189,6 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
-	Entity getGenericType();
+	String getGenericType();
 
 }
