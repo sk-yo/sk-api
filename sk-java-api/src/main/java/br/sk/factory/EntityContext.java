@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaSource;
@@ -21,10 +22,16 @@ public class EntityContext {
 		super();
 	}
 
-	public Entity findByName(String name) throws IOException {
+	public Optional<Entity> findByName(String name) {
 		JavaProjectBuilder builder = new JavaProjectBuilder();
-		JavaSource javaSource = builder.addSource(context.get(name));
-		return new EntityImpl(this, javaSource.getClasses().get(0));
+		JavaSource javaSource;
+		try {
+			javaSource = builder.addSource(context.get(name));
+			return Optional.of(new EntityImpl(this, javaSource.getClasses().get(0)));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return Optional.empty();
 	}
 
 	public static EntityContext of(String path) throws IOException {

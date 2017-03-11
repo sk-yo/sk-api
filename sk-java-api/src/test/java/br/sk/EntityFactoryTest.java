@@ -2,6 +2,7 @@ package br.sk;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -15,12 +16,14 @@ public class EntityFactoryTest {
 
 		EntityContext context = EntityContext.of("src/test/java");
 
-		Entity entity = context.findByName("Foo");
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-		// System.out.println(entity);
-		String json = objectMapper.writeValueAsString(entity);
-		System.out.println(json);
+		Optional<Entity> entity = context.findByName("Foo");
+		if (entity.isPresent()) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+			// System.out.println(entity);
+			String json = objectMapper.writeValueAsString(entity.get());
+			System.out.println(json);
+		}
 	}
 
 }

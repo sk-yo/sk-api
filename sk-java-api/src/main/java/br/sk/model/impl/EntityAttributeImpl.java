@@ -16,6 +16,7 @@ import com.thoughtworks.qdox.model.JavaField;
 
 import br.sk.factory.EntityContext;
 import br.sk.model.Annotation;
+import br.sk.model.Entity;
 import br.sk.model.EntityAttribute;
 
 public class EntityAttributeImpl implements EntityAttribute {
@@ -395,6 +396,9 @@ public class EntityAttributeImpl implements EntityAttribute {
 			if (this.getMultiplicity().equals("OneToMany")) {
 				return this.hasMappedBy() ? "bidirectional" : "unidirectional";
 			} else if (this.getMultiplicity().equals("OneToOne")) {
+				this.context.findByName(this.getType()).ifPresent(entity -> {
+					System.out.println(entity.getAttributes());
+				});
 				//this.context.getClasses().forEach(c -> System.out.println(c.getCanonicalName()));
 				//JavaClass javaClass = this.context.getClassByName("br.sk.model." + this.getType());
 				//javaClass.getFields().stream().forEach(attr -> System.out.println(attr.getName()));
