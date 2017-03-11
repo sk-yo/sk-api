@@ -13,7 +13,7 @@ import br.sk.model.core.EAnnotation;
  * @author jcruz
  *
  */
-@JsonPropertyOrder(alphabetic = true)
+@JsonPropertyOrder({ "name", "fullyQualifiedName", "instanceName", "pluralizedInstanceName", "tableName" })
 public interface Entity {
 
 	JavaProjectBuilder getBuilder();

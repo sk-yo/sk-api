@@ -1,15 +1,12 @@
 package br.sk.model.impl;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
@@ -17,17 +14,12 @@ import com.thoughtworks.qdox.model.JavaField;
 import br.sk.model.core.EAnnotation;
 import br.sk.model.jpa.Entity;
 import br.sk.model.jpa.EntityAttribute;
-import br.sk.model.jpa.enums.MultiplicityType;
-import br.sk.model.jpa.enums.RelationshipType;
 
 public class EntityAttributeImpl implements EntityAttribute {
 
 	private JavaField javaField;
 
 	private Set<EAnnotation> annotations;
-
-	@JsonIgnore
-	private Map<String, MultiplicityType> multiplicityTypes = createMultiplicityType();
 
 	@JsonIgnore
 	private JavaProjectBuilder builder;
@@ -83,6 +75,11 @@ public class EntityAttributeImpl implements EntityAttribute {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.EntityAttribute#getType()
+	 */
 	@Override
 	public String getType() {
 		return this.javaField.getType().getName();
@@ -203,24 +200,14 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#getMultiplicityType()
 	 */
 	@Override
-	public MultiplicityType getMultiplicityType() {
+	public String getMultiplicity() {
 		//// @formatter:off
 		return this.getAnnotations().stream()
-				.filter(ann -> multiplicityTypes.containsKey(ann.getName()))
+				.filter(ann -> Arrays.asList("OneToMany", "OneToOne", "ManyToOne", "ManyToMany").contains(ann.getName()))
 				.findFirst()
-				.map(ann -> multiplicityTypes.get(ann.getName()))
+				.map(ann -> ann.getName())
 				.orElse(null);
 		// @formatter:on
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see br.sk.model.jpa.EntityAttribute#getRelationshipType()
-	 */
-	@Override
-	public RelationshipType getRelationshipType() {
-		return null;
 	}
 
 	/*
@@ -273,7 +260,6 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#getAnnotations()
 	 */
 	@Override
-	@JsonIgnore
 	public Set<EAnnotation> getAnnotations() {
 		if (this.annotations == null) {
 			//// @formatter:off
@@ -296,15 +282,6 @@ public class EntityAttributeImpl implements EntityAttribute {
 	@Override
 	public Entity getGenericType() {
 		return null;
-	}
-
-	private Map<String, MultiplicityType> createMultiplicityType() {
-		Map<String, MultiplicityType> multiplicityTypes = new HashMap<>();
-		multiplicityTypes.put("OneToMany", MultiplicityType.ONE_TO_MANY);
-		multiplicityTypes.put("OneToOne", MultiplicityType.ONE_TO_ONE);
-		multiplicityTypes.put("ManyToMany", MultiplicityType.MANY_TO_MANY);
-		multiplicityTypes.put("ManyToOne", MultiplicityType.MANY_TO_ONE);
-		return multiplicityTypes;
 	}
 
 }

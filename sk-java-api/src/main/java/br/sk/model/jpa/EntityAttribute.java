@@ -2,12 +2,12 @@ package br.sk.model.jpa;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 
 import br.sk.model.core.EAnnotation;
-import br.sk.model.jpa.enums.MultiplicityType;
-import br.sk.model.jpa.enums.RelationshipType;
 
 @JsonPropertyOrder(alphabetic = true)
 public interface EntityAttribute {
@@ -50,12 +50,14 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
+	@JsonProperty("isId")
 	boolean isId();
 
 	/**
 	 * 
 	 * @return
 	 */
+	@JsonProperty("isList")
 	boolean isList();
 
 	/**
@@ -63,26 +65,30 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
+	@JsonProperty("isStatic")
 	boolean isStatic();
 
 	/**
 	 * 
 	 * @return
 	 */
+	@JsonProperty("isUnique")
 	boolean isUnique();
 
 	/**
 	 * 
 	 * @return
 	 */
+	@JsonProperty("isNullable")
 	boolean isNullable();
-	
+
 	/**
 	 * 
 	 * @return
 	 */
+	@JsonProperty("isOrphanRemoval")
 	boolean isOrphanRemoval();
-	
+
 	/**
 	 * 
 	 * @return
@@ -110,24 +116,20 @@ public interface EntityAttribute {
 	/**
 	 * 
 	 */
-	MultiplicityType getMultiplicityType();
+	String getMultiplicity();
 
 	/**
 	 * 
 	 * @return
 	 */
-	RelationshipType getRelationshipType();
-
-	/**
-	 * 
-	 * @return
-	 */
+	@JsonProperty("isUnidirecional")
 	boolean isUnidirecional();
 
 	/**
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	Set<EAnnotation> getAnnotations();
 
 	/**
