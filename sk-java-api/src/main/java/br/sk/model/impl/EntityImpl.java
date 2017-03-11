@@ -94,14 +94,33 @@ public class EntityImpl implements Entity {
 				.orElse(null);
 		// @formatter:on
 	}
-	
+
+	@Override
+	public boolean hasHashCode() {
+		//// @formatter:off
+		return this.javaClass.getMethods().stream()
+				.filter(method -> method.getName().equals("hashCode"))
+				.findFirst()
+				.isPresent();
+		// @formatter:on
+	}
+
+	@Override
+	public boolean hasEquals() {
+		//// @formatter:off
+		return this.javaClass.getMethods().stream()
+				.filter(method -> method.getName().equals("equals"))
+				.findFirst()
+				.isPresent();
+		// @formatter:on
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#getAnnotations()
 	 */
 	@Override
-	@JsonIgnore
 	public Set<EAnnotation> getAnnotations() {
 		if (this.annotations == null) {
 			//// @formatter:off

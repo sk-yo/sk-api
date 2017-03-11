@@ -121,7 +121,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#isUnique()
 	 */
 	@Override
-	public boolean isUnique() {
+	public boolean isColumnUnique() {
 		//// @formatter:off
 		return this.getAnnotations().stream()
 				.filter(ann -> ann.getName().equals("Column"))
@@ -132,8 +132,13 @@ public class EntityAttributeImpl implements EntityAttribute {
 		// @formatter:on
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.EntityAttribute#isNullable()
+	 */
 	@Override
-	public boolean isNullable() {
+	public boolean isColumnNullable() {
 		//// @formatter:off
 		return this.getAnnotations().stream()
 				.filter(ann -> ann.getName().equals("Column"))
@@ -141,6 +146,46 @@ public class EntityAttributeImpl implements EntityAttribute {
 				.findFirst()
 				.map(ann -> ann.getParameters().get("nullable").equals("true"))
 				.orElse(true);
+		// @formatter:on
+	}
+
+	@Override
+	public boolean isNumber() {
+		return Arrays.asList("Long", "long", "Integer", "int", "BigDecimal", "BigInteger").contains(this.javaField.getType().getValue());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.EntityAttribute#isDate()
+	 */
+	@Override
+	public boolean isDate() {
+		return this.javaField.getType().getValue().equals("Date");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.EntityAttribute#isString()
+	 */
+	@Override
+	public boolean isString() {
+		return this.javaField.getType().getValue().equals("String");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.EntityAttribute#isBlob()
+	 */
+	@Override
+	public boolean isBlob() {
+		//// @formatter:off
+		return this.getAnnotations().stream()
+				.filter(ann -> ann.getName().equals("Lob"))
+				.findFirst()
+				.isPresent();
 		// @formatter:on
 	}
 
@@ -161,7 +206,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#getLength()
 	 */
 	@Override
-	public Integer getLength() {
+	public Integer getColumnLength() {
 		//// @formatter:off
 		if(this.javaField.getType().getName().equals("String")) {
 			return this.getAnnotations().stream()
@@ -192,6 +237,18 @@ public class EntityAttributeImpl implements EntityAttribute {
 				.orElse(null);
 		// @formatter:on
 
+	}
+
+	@Override
+	public String getGeneratedValueStrategy() {
+		//// @formatter:off
+		return this.getAnnotations().stream()
+				.filter(ann -> ann.getName().equals("GeneratedValue"))
+				.filter(ann -> ann.getParameters().containsKey("strategy"))
+				.findFirst()
+				.map(ann -> ann.getParameters().get("strategy"))
+				.orElse(null);
+		// @formatter:on
 	}
 
 	/*

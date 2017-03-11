@@ -2,6 +2,8 @@ package br.sk.model.jpa;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 
@@ -65,6 +67,21 @@ public interface Entity {
 	 * 
 	 * @return
 	 */
+	@JsonProperty("hasHashCode")
+	boolean hasHashCode();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("hasEquals")
+	boolean hasEquals();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonIgnore
 	Set<EAnnotation> getAnnotations();
 
 	/**

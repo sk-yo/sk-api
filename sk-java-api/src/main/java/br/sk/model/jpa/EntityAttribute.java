@@ -72,15 +72,15 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
-	@JsonProperty("isUnique")
-	boolean isUnique();
+	@JsonProperty("isColumnUnique")
+	boolean isColumnUnique();
 
 	/**
 	 * 
 	 * @return
 	 */
-	@JsonProperty("isNullable")
-	boolean isNullable();
+	@JsonProperty("isColumnNullable")
+	boolean isColumnNullable();
 
 	/**
 	 * 
@@ -88,6 +88,34 @@ public interface EntityAttribute {
 	 */
 	@JsonProperty("isOrphanRemoval")
 	boolean isOrphanRemoval();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("isNumber")
+	boolean isNumber();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("isDate")
+	boolean isDate();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("isString")
+	boolean isString();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("isBlob")
+	boolean isBlob();
 
 	/**
 	 * 
@@ -105,13 +133,19 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
-	Integer getLength();
+	Integer getColumnLength();
 
 	/**
 	 * 
 	 * @return
 	 */
 	String getColumnName();
+
+	/**
+	 * 
+	 * @return
+	 */
+	String getGeneratedValueStrategy();
 
 	/**
 	 * 
@@ -136,7 +170,6 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
-
 	Entity getGenericType();
 
 }
