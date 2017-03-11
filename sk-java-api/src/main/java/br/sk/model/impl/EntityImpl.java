@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
 
+import br.sk.model.core.EAnnotation;
 import br.sk.model.jpa.Entity;
 import br.sk.model.jpa.EntityAttribute;
 
@@ -22,6 +23,8 @@ public class EntityImpl implements Entity {
 
 	@JsonIgnore
 	private JavaProjectBuilder builder;
+
+	private Set<EAnnotation> annotations;
 
 	public EntityImpl(JavaProjectBuilder builder, JavaClass javaClass) {
 		super();
@@ -82,7 +85,34 @@ public class EntityImpl implements Entity {
 	 */
 	@Override
 	public String getTableName() {
-		return null;
+		//// @formatter:off
+		return this.getAnnotations().stream()
+				.filter(ann -> ann.getName().equals("Table"))
+				.filter(ann -> ann.getParameters().containsKey("name"))
+				.findFirst()
+				.map(ann -> ann.getParameters().get("name"))
+				.orElse(null);
+		// @formatter:on
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.jpa.EntityAttribute#getAnnotations()
+	 */
+	@Override
+	@JsonIgnore
+	public Set<EAnnotation> getAnnotations() {
+		if (this.annotations == null) {
+			//// @formatter:off
+			this.annotations = javaClass.getAnnotations()
+									.stream()
+									.map(EAnnotationImpl::new)
+									.collect(Collectors.toSet());
+			// @formatter:on
+
+		}
+		return this.annotations;
 	}
 
 	/*
@@ -96,7 +126,7 @@ public class EntityImpl implements Entity {
 			//// @formatter:off
 			this.attributes = javaClass.getFields()
 								.stream()
-								.map(EntityAttributeImpl::new)
+								.map(javaField -> new EntityAttributeImpl(builder, javaField))
 								.collect(Collectors.toSet());
 			// @formatter:on
 		}

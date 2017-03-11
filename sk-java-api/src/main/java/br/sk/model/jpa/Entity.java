@@ -5,19 +5,17 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 
+import br.sk.model.core.EAnnotation;
+
 /**
  * Representação de uma entidade JPA.
  * 
  * @author jcruz
  *
  */
-@JsonPropertyOrder(value = { "name", "fullyQualifiedName", "instanceName", "pluralizedInstanceName" })
+@JsonPropertyOrder(alphabetic = true)
 public interface Entity {
 
-	/**
-	 * 
-	 * @return
-	 */
 	JavaProjectBuilder getBuilder();
 
 	/**
@@ -62,6 +60,12 @@ public interface Entity {
 	 * @return
 	 */
 	String getTableName();
+
+	/**
+	 * 
+	 * @return
+	 */
+	Set<EAnnotation> getAnnotations();
 
 	/**
 	 * 

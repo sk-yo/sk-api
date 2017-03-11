@@ -3,13 +3,16 @@ package br.sk.model.jpa;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.thoughtworks.qdox.JavaProjectBuilder;
 
 import br.sk.model.core.EAnnotation;
 import br.sk.model.jpa.enums.MultiplicityType;
 import br.sk.model.jpa.enums.RelationshipType;
 
-@JsonPropertyOrder(value = { "name", "label", "getterName", "setterName" })
+@JsonPropertyOrder(alphabetic = true)
 public interface EntityAttribute {
+
+	JavaProjectBuilder getBuilder();
 
 	/**
 	 * 
@@ -38,6 +41,12 @@ public interface EntityAttribute {
 
 	/**
 	 * 
+	 * @return
+	 */
+	String getType();
+
+	/**
+	 * 
 	 * 
 	 * @return
 	 */
@@ -50,10 +59,47 @@ public interface EntityAttribute {
 	boolean isList();
 
 	/**
+	 * Flag identificando se o atributo é static.
+	 * 
+	 * @return
+	 */
+	boolean isStatic();
+
+	/**
+	 * 
+	 * @return
+	 */
+	boolean isUnique();
+
+	/**
+	 * 
+	 * @return
+	 */
+	boolean isNullable();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	boolean isOrphanRemoval();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	String getMappedBy();
+
+	/**
 	 * 
 	 * @return
 	 */
 	String getLabel();
+
+	/**
+	 * 
+	 * @return
+	 */
+	Integer getLength();
 
 	/**
 	 * 
