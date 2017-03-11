@@ -1,6 +1,7 @@
 package br.sk.model.impl;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -267,6 +268,30 @@ public class EntityAttributeImpl implements EntityAttribute {
 		// @formatter:on
 	}
 
+	@Override
+	public boolean hasMultiplicity() {
+		return Arrays.asList("OneToMany", "OneToOne", "ManyToOne", "ManyToMany").contains(this.getMultiplicity());
+	}
+
+	@Override
+	public LinkedList<String> getCascadeType() {
+
+		return this.javaField.getAnnotations().stream()
+				.filter(ann -> Arrays.asList("OneToMany", "OneToOne", "ManyToOne", "ManyToMany").contains(ann.getType().getName()))
+				.filter(ann -> ann.getNamedParameter("cascade") != null).findFirst()
+				.map(ann -> this.resolveCascadeType(ann.getNamedParameter("cascade"))).orElse(null);
+
+		// return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	private LinkedList<String> resolveCascadeType(Object cascade) {
+		if (cascade.getClass().getSimpleName().equals("String")) {
+			return new LinkedList<>(Arrays.asList((String) cascade));
+		}
+		return (LinkedList<String>) cascade;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -298,6 +323,23 @@ public class EntityAttributeImpl implements EntityAttribute {
 				.findFirst()
 				.map(ann -> ann.getParameters().get("mappedBy"))
 				.orElse(null);
+		// @formatter:on
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.EntityAttribute#hasMappedBy()
+	 */
+	@Override
+	public boolean hasMappedBy() {
+		//// @formatter:off
+		return this.getAnnotations().stream()
+				.filter(ann -> Arrays.asList("ManyToMany", "OneToOne", "OneToMany").contains(ann.getName()))
+				.filter(ann -> ann.getParameters().containsKey("mappedBy"))
+				.findFirst()
+				.map(ann -> StringUtils.isNotBlank(ann.getParameters().get("mappedBy")))
+				.orElse(false);
 		// @formatter:on
 	}
 

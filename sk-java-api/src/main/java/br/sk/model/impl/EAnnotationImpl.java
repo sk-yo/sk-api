@@ -39,4 +39,9 @@ public class EAnnotationImpl implements Annotation {
 		return this.parameters;
 	}
 
+	@Override
+	public JavaAnnotation getJavaAnnotation() {
+		return this.annotation;
+	}
+
 }

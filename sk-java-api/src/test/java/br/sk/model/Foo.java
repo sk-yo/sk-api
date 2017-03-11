@@ -3,6 +3,7 @@ package br.sk.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,10 +34,10 @@ public class Foo implements Serializable {
 	@Column(name = "NAME", unique = true, length = 1024, nullable = false)
 	private String name;
 
-	@ManyToMany
+	@ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST })
 	private List<Bar> bars;
 
-	@OneToOne(mappedBy = "bars", orphanRemoval = true)
+	@OneToOne(mappedBy = "cars", orphanRemoval = true)
 	private Car car;
 
 	@Lob

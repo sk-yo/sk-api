@@ -1,5 +1,6 @@
 package br.sk.model;
 
+import java.util.LinkedList;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -120,6 +121,13 @@ public interface EntityAttribute {
 	 * @return
 	 */
 	String getMappedBy();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("hasMappedBy")
+	boolean hasMappedBy();
 
 	/**
 	 * 
@@ -149,6 +157,19 @@ public interface EntityAttribute {
 	 * 
 	 */
 	String getMultiplicity();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("hasMultiplicity")
+	boolean hasMultiplicity();
+
+	/**
+	 * 
+	 * @return
+	 */
+	LinkedList<String> getCascadeType();
 
 	/**
 	 * 

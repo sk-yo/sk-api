@@ -2,10 +2,18 @@ package br.sk.model;
 
 import java.util.Map;
 
-public interface Annotation  {
+import com.thoughtworks.qdox.model.JavaAnnotation;
+
+public interface Annotation {
 
 	public String getName();
 
 	public Map<String, String> getParameters();
+
+	/**
+	 * 
+	 * @return
+	 */
+	JavaAnnotation getJavaAnnotation();
 
 }
