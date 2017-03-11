@@ -6,12 +6,14 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.thoughtworks.qdox.JavaProjectBuilder;
+
+import br.sk.factory.EntityContext;
 
 @JsonPropertyOrder(value = { "name" })
 public interface EntityAttribute {
 
-	JavaProjectBuilder getBuilder();
+	@JsonIgnore
+	EntityContext getContext();
 
 	/**
 	 * 
@@ -190,5 +192,11 @@ public interface EntityAttribute {
 	 * @return
 	 */
 	String getGenericType();
+
+	/**
+	 * 
+	 * @return
+	 */
+	String getNavegability();
 
 }

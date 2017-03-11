@@ -10,10 +10,11 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 
+import br.sk.factory.EntityContext;
 import br.sk.model.Annotation;
 import br.sk.model.EntityAttribute;
 
@@ -24,17 +25,17 @@ public class EntityAttributeImpl implements EntityAttribute {
 	private Set<Annotation> annotations;
 
 	@JsonIgnore
-	private JavaProjectBuilder builder;
+	private EntityContext context;
 
-	public EntityAttributeImpl(JavaProjectBuilder builder, JavaField javaField) {
+	public EntityAttributeImpl(EntityContext builder, JavaField javaField) {
 		super();
-		this.builder = builder;
+		this.context = builder;
 		this.javaField = javaField;
 	}
 
 	@Override
-	public JavaProjectBuilder getBuilder() {
-		return this.builder;
+	public EntityContext getContext() {
+		return this.context;
 	}
 
 	/*
@@ -383,6 +384,20 @@ public class EntityAttributeImpl implements EntityAttribute {
 			Matcher m = pattern.matcher(this.javaField.getType().getGenericValue());
 			if (m.find()) {
 				return m.group(1);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getNavegability() {
+		if (this.hasMultiplicity()) {
+			if (this.getMultiplicity().equals("OneToMany")) {
+				return this.hasMappedBy() ? "bidirectional" : "unidirectional";
+			} else if (this.getMultiplicity().equals("OneToOne")) {
+				//this.context.getClasses().forEach(c -> System.out.println(c.getCanonicalName()));
+				//JavaClass javaClass = this.context.getClassByName("br.sk.model." + this.getType());
+				//javaClass.getFields().stream().forEach(attr -> System.out.println(attr.getName()));
 			}
 		}
 		return null;

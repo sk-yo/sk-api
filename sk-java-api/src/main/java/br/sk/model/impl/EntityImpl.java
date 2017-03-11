@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
 
+import br.sk.factory.EntityContext;
 import br.sk.model.Annotation;
 import br.sk.model.Entity;
 import br.sk.model.EntityAttribute;
@@ -22,19 +23,19 @@ public class EntityImpl implements Entity {
 	private Set<EntityAttribute> attributes;
 
 	@JsonIgnore
-	private JavaProjectBuilder builder;
+	private EntityContext builder;
 
 	private Set<Annotation> annotations;
 
-	public EntityImpl(JavaProjectBuilder builder, JavaClass javaClass) {
+	public EntityImpl(EntityContext context, JavaClass javaClass) {
 		super();
-		this.builder = builder;
+		this.builder = context;
 		this.javaClass = javaClass;
 
 	}
 
 	@Override
-	public JavaProjectBuilder getBuilder() {
+	public EntityContext getContext() {
 		return this.builder;
 	}
 

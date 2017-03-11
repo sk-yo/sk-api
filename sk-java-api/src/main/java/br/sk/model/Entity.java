@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 
+import br.sk.factory.EntityContext;
+
 /**
  * Representação de uma entidade JPA.
  * 
@@ -16,7 +18,8 @@ import com.thoughtworks.qdox.JavaProjectBuilder;
 @JsonPropertyOrder({ "name", "fullyQualifiedName", "instanceName", "pluralizedInstanceName", "tableName" })
 public interface Entity {
 
-	JavaProjectBuilder getBuilder();
+	@JsonIgnore
+	EntityContext getContext();
 
 	/**
 	 * Nome da classe.
