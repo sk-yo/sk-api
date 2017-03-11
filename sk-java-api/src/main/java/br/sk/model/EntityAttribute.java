@@ -1,4 +1,4 @@
-package br.sk.model.jpa;
+package br.sk.model;
 
 import java.util.Set;
 
@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thoughtworks.qdox.JavaProjectBuilder;
-
-import br.sk.model.core.EAnnotation;
 
 @JsonPropertyOrder(alphabetic = true)
 public interface EntityAttribute {
@@ -57,8 +55,36 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
-	@JsonProperty("isList")
-	boolean isList();
+	@JsonProperty("isTypeList")
+	boolean isTypeList();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("isTypeNumber")
+	boolean isTypeNumber();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("isTypeDate")
+	boolean isTypeDate();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("isTypeString")
+	boolean isTypeString();
+
+	/**
+	 * 
+	 * @return
+	 */
+	@JsonProperty("isTypeBlob")
+	boolean isTypeBlob();
 
 	/**
 	 * Flag identificando se o atributo é static.
@@ -88,34 +114,6 @@ public interface EntityAttribute {
 	 */
 	@JsonProperty("isOrphanRemoval")
 	boolean isOrphanRemoval();
-
-	/**
-	 * 
-	 * @return
-	 */
-	@JsonProperty("isNumber")
-	boolean isNumber();
-
-	/**
-	 * 
-	 * @return
-	 */
-	@JsonProperty("isDate")
-	boolean isDate();
-
-	/**
-	 * 
-	 * @return
-	 */
-	@JsonProperty("isString")
-	boolean isString();
-
-	/**
-	 * 
-	 * @return
-	 */
-	@JsonProperty("isBlob")
-	boolean isBlob();
 
 	/**
 	 * 
@@ -156,15 +154,8 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
-	@JsonProperty("isUnidirecional")
-	boolean isUnidirecional();
-
-	/**
-	 * 
-	 * @return
-	 */
 	@JsonIgnore
-	Set<EAnnotation> getAnnotations();
+	Set<Annotation> getAnnotations();
 
 	/**
 	 * 

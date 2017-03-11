@@ -1,4 +1,4 @@
-package br.sk.model.jpa;
+package br.sk.model;
 
 import java.util.Set;
 
@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.thoughtworks.qdox.JavaProjectBuilder;
-
-import br.sk.model.core.EAnnotation;
 
 /**
  * Representação de uma entidade JPA.
@@ -82,7 +80,7 @@ public interface Entity {
 	 * @return
 	 */
 	@JsonIgnore
-	Set<EAnnotation> getAnnotations();
+	Set<Annotation> getAnnotations();
 
 	/**
 	 * 

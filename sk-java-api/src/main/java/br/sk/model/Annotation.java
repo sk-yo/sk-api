@@ -1,8 +1,8 @@
-package br.sk.model.core;
+package br.sk.model;
 
 import java.util.Map;
 
-public interface EAnnotation  {
+public interface Annotation  {
 
 	public String getName();
 

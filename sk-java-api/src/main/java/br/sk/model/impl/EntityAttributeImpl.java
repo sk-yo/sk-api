@@ -11,15 +11,15 @@ import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 
-import br.sk.model.core.EAnnotation;
-import br.sk.model.jpa.Entity;
-import br.sk.model.jpa.EntityAttribute;
+import br.sk.model.Annotation;
+import br.sk.model.Entity;
+import br.sk.model.EntityAttribute;
 
 public class EntityAttributeImpl implements EntityAttribute {
 
 	private JavaField javaField;
 
-	private Set<EAnnotation> annotations;
+	private Set<Annotation> annotations;
 
 	@JsonIgnore
 	private JavaProjectBuilder builder;
@@ -101,7 +101,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#isList()
 	 */
 	@Override
-	public boolean isList() {
+	public boolean isTypeList() {
 		return this.javaField.getType().getGenericValue().startsWith("List");
 	}
 
@@ -150,7 +150,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	}
 
 	@Override
-	public boolean isNumber() {
+	public boolean isTypeNumber() {
 		return Arrays.asList("Long", "long", "Integer", "int", "BigDecimal", "BigInteger").contains(this.javaField.getType().getValue());
 	}
 
@@ -160,7 +160,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#isDate()
 	 */
 	@Override
-	public boolean isDate() {
+	public boolean isTypeDate() {
 		return this.javaField.getType().getValue().equals("Date");
 	}
 
@@ -170,7 +170,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#isString()
 	 */
 	@Override
-	public boolean isString() {
+	public boolean isTypeString() {
 		return this.javaField.getType().getValue().equals("String");
 	}
 
@@ -180,7 +180,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#isBlob()
 	 */
 	@Override
-	public boolean isBlob() {
+	public boolean isTypeBlob() {
 		//// @formatter:off
 		return this.getAnnotations().stream()
 				.filter(ann -> ann.getName().equals("Lob"))
@@ -270,16 +270,6 @@ public class EntityAttributeImpl implements EntityAttribute {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see br.sk.model.jpa.EntityAttribute#isUnidirecional()
-	 */
-	@Override
-	public boolean isUnidirecional() {
-		return false;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see br.sk.model.jpa.EntityAttribute#isOrphanRemoval()
 	 */
 	@Override
@@ -317,7 +307,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#getAnnotations()
 	 */
 	@Override
-	public Set<EAnnotation> getAnnotations() {
+	public Set<Annotation> getAnnotations() {
 		if (this.annotations == null) {
 			//// @formatter:off
 			this.annotations = javaField.getAnnotations()

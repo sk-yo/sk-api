@@ -6,8 +6,8 @@ import java.io.IOException;
 
 import com.thoughtworks.qdox.JavaProjectBuilder;
 
+import br.sk.model.Entity;
 import br.sk.model.impl.EntityImpl;
-import br.sk.model.jpa.Entity;
 
 public class EntityFactory {
 

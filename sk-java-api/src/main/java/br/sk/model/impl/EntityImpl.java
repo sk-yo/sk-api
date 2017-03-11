@@ -10,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.thoughtworks.qdox.JavaProjectBuilder;
 import com.thoughtworks.qdox.model.JavaClass;
 
-import br.sk.model.core.EAnnotation;
-import br.sk.model.jpa.Entity;
-import br.sk.model.jpa.EntityAttribute;
+import br.sk.model.Annotation;
+import br.sk.model.Entity;
+import br.sk.model.EntityAttribute;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EntityImpl implements Entity {
@@ -24,7 +24,7 @@ public class EntityImpl implements Entity {
 	@JsonIgnore
 	private JavaProjectBuilder builder;
 
-	private Set<EAnnotation> annotations;
+	private Set<Annotation> annotations;
 
 	public EntityImpl(JavaProjectBuilder builder, JavaClass javaClass) {
 		super();
@@ -121,7 +121,7 @@ public class EntityImpl implements Entity {
 	 * @see br.sk.model.jpa.EntityAttribute#getAnnotations()
 	 */
 	@Override
-	public Set<EAnnotation> getAnnotations() {
+	public Set<Annotation> getAnnotations() {
 		if (this.annotations == null) {
 			//// @formatter:off
 			this.annotations = javaClass.getAnnotations()

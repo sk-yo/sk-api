@@ -4,13 +4,11 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import br.sk.model.EClass;
-import br.sk.model.EMavenProject;
-import br.sk.proxy.EMavenProjectProxy;
 import br.sk.utils.JSON;
 
 public class Project {
-
+	
+	/*
 	public static String findClassesByAnnotationName(String projectDir, String annotationName) {
 		EMavenProject mavenProject = new EMavenProjectProxy(Paths.get(projectDir));
 		//// @formatter:off
@@ -48,5 +46,5 @@ public class Project {
 					.findFirst();
 		return eClass.isPresent() ? JSON.transform(eClass.get()) : null;
 		// @formatter:on
-	}
+	}*/
 }

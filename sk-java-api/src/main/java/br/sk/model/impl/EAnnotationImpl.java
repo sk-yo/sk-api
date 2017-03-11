@@ -6,9 +6,9 @@ import java.util.Map;
 
 import com.thoughtworks.qdox.model.JavaAnnotation;
 
-import br.sk.model.core.EAnnotation;
+import br.sk.model.Annotation;
 
-public class EAnnotationImpl implements EAnnotation {
+public class EAnnotationImpl implements Annotation {
 
 	private JavaAnnotation annotation;
 
