@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -39,6 +40,9 @@ public class Foo implements Serializable {
 
 	@OneToOne(mappedBy = "cars", orphanRemoval = true)
 	private Car car;
+
+	@ManyToOne
+	private Sar sar;
 
 	@Lob
 	private byte[] arquivo;
@@ -81,6 +85,14 @@ public class Foo implements Serializable {
 
 	public void setArquivo(byte[] arquivo) {
 		this.arquivo = arquivo;
+	}
+
+	public Sar getSar() {
+		return sar;
+	}
+
+	public void setSar(Sar sar) {
+		this.sar = sar;
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class EntityFactoryTest {
 
 		EntityContext context = EntityContext.of("src/test/java");
 
-		Optional<Entity> entity = context.findByName("Foo");
+		Optional<Entity> entity = context.findEntityByName("Foo");
 		if (entity.isPresent()) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);

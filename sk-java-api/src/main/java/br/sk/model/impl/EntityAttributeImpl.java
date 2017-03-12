@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import com.thoughtworks.qdox.model.DocletTag;
+import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 
 import br.sk.factory.EntityContext;
@@ -386,14 +387,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public String getGenericType() {
-		if (this.javaField.getType().getName().equals("List")) {
-			Pattern pattern = Pattern.compile("List<([a-zA-Z]+)>");
-			Matcher m = pattern.matcher(this.javaField.getType().getGenericValue());
-			if (m.find()) {
-				return m.group(1);
-			}
-		}
-		return null;
+		return EntityAttributeImpl.getGenericType(this.javaField);
 	}
 
 	/*
@@ -410,9 +404,9 @@ public class EntityAttributeImpl implements EntityAttribute {
 			case "OneToOne":
 				return this.resolveNavegabilityForOneToOne();
 			case "ManyToMany":
-				break;
+				return this.resolveNavegabilityForManyToMany();
 			case "ManyToOne":
-				break;
+				return this.resolveNavegabilityForManyToOne();
 			default:
 				break;
 			}
@@ -429,17 +423,66 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	private String resolveNavegabilityForOneToOne() {
 		if (this.getMultiplicity().equals("OneToOne")) {
-			Optional<Entity> entity = this.context.findByName(this.getType());
-			if (entity.isPresent()) {
+			Optional<JavaClass> javaClass = this.context.findJavaClassByName(this.getType());
+			if (javaClass.isPresent()) {
 				//// @formatter:off
-				return entity.get().getAttributes().stream()
+				return javaClass.get().getFields().stream()
 					.filter(attr -> attr.getType().equals(this.entity.getName()))
-					.findAny()
+					.findFirst()
 					.map(attr -> "bidirectional")
 					.orElse("unidirectional");
 				// @formatter:on
 			}
 			return this.hasMappedBy() ? "bidirectional" : "unidirectional";
+		}
+		return null;
+	}
+	
+	private String resolveNavegabilityForManyToMany() {
+		if (this.getMultiplicity().equals("ManyToMany")) {
+			Optional<JavaClass> javaClass = this.context.findJavaClassByName(this.getGenericType());
+			if (javaClass.isPresent()) {
+				//// @formatter:off
+				return javaClass.get().getFields().stream()
+					.filter(javaField -> javaField.getType().getName().equals("List"))
+					.filter(javaField -> EntityAttributeImpl.getGenericType(javaField).equals(this.entity.getName()))
+					.findFirst()
+					.map(attr -> "bidirectional")
+					.orElse("unidirectional");
+				// @formatter:on
+			}
+			return this.hasMappedBy() ? "bidirectional" : "unidirectional";
+		}
+		return null;
+	}
+	
+	private String resolveNavegabilityForManyToOne() {
+		if (this.getMultiplicity().equals("ManyToOne")) {
+			Optional<JavaClass> javaClass = this.context.findJavaClassByName(this.getType());
+			if (javaClass.isPresent()) {
+				//// @formatter:off
+				return javaClass.get().getFields().stream()
+					.filter(javaField -> javaField.getType().getName().equals("List"))
+					.filter(javaField -> EntityAttributeImpl.getGenericType(javaField).equals(this.entity.getName()))
+					.findFirst()
+					.map(attr -> "bidirectional")
+					.orElse("unidirectional");
+				// @formatter:on
+			}
+			return this.hasMappedBy() ? "bidirectional" : "unidirectional";
+		}
+		return null;
+	}
+	
+	
+	
+	protected static String getGenericType(JavaField javaField) {
+		if (javaField.getType().getName().equals("List")) {
+			Pattern pattern = Pattern.compile("List<([a-zA-Z]+)>");
+			Matcher m = pattern.matcher(javaField.getType().getGenericValue());
+			if (m.find()) {
+				return m.group(1);
+			}
 		}
 		return null;
 	}
