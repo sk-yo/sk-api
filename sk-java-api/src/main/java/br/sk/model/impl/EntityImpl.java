@@ -126,7 +126,7 @@ public class EntityImpl implements Entity {
 			//// @formatter:off
 			this.annotations = javaClass.getAnnotations()
 									.stream()
-									.map(EAnnotationImpl::new)
+									.map(AnnotationImpl::new)
 									.collect(Collectors.toSet());
 			// @formatter:on
 

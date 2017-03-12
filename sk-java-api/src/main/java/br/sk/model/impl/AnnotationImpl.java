@@ -8,13 +8,13 @@ import com.thoughtworks.qdox.model.JavaAnnotation;
 
 import br.sk.model.Annotation;
 
-public class EAnnotationImpl implements Annotation {
+public class AnnotationImpl implements Annotation {
 
 	private JavaAnnotation annotation;
 
 	protected Map<String, String> parameters;
 
-	public EAnnotationImpl(JavaAnnotation annotation) {
+	public AnnotationImpl(JavaAnnotation annotation) {
 		super();
 		this.annotation = annotation;
 	}

@@ -371,7 +371,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 			//// @formatter:off
 			this.annotations = javaField.getAnnotations()
 									.stream()
-									.map(EAnnotationImpl::new)
+									.map(AnnotationImpl::new)
 									.collect(Collectors.toSet());
 			// @formatter:on
 
