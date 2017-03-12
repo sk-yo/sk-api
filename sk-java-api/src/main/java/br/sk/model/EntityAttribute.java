@@ -146,7 +146,7 @@ public interface EntityAttribute {
 
 	/**
 	 * 
-	 * @return
+	 * @return Tamanho da coluna.
 	 */
 	Integer getColumnLength();
 
@@ -164,10 +164,13 @@ public interface EntityAttribute {
 
 	/**
 	 * 
+	 * @return
 	 */
 	String getMultiplicity();
 
 	/**
+	 * Retorna true se o atributo possuir algumas das seguintes annotations:
+	 * OneToMany, ManyToMany, ManyToOne, OneToOne.
 	 * 
 	 * @return
 	 */
@@ -176,7 +179,7 @@ public interface EntityAttribute {
 
 	/**
 	 * 
-	 * @return
+	 * @return Lista com os tipos de cascade types.
 	 */
 	LinkedList<String> getCascadeType();
 
@@ -201,6 +204,9 @@ public interface EntityAttribute {
 	String getGenericType();
 
 	/**
+	 * 
+	 * Navegabilidade do atributo em caso de relacionamentos. unidirectional,
+	 * bidirectional ou null.
 	 * 
 	 * @return
 	 */
