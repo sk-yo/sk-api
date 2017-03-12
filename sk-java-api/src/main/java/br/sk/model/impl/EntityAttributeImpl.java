@@ -389,12 +389,10 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 */
 
 	@Override
-	public Entity getGenericType() {
-		if(!backReference && this.hasMultiplicity() && this.isTypeList()) {
+	public String getGenericType() {
+		if(this.hasMultiplicity() && this.isTypeList()) {
 			//// @formatter:off
-			return this.context.findEntityByName(EntityAttributeImpl.getGenericType(this.javaField), true)
-						.map(entity -> entity)
-						.orElse(null);
+			return EntityAttributeImpl.getGenericType(this.javaField);
 			// @formatter:on
 		}
 		return null;
@@ -452,12 +450,12 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	private String resolveNavegabilityForManyToMany() {
 		if (this.getMultiplicity().equals("ManyToMany")) {
-			Optional<Entity> entity = this.context.findEntityByName(this.getGenericType().getName());
+			Optional<Entity> entity = this.context.findEntityByName(this.getGenericType());
 			if (entity.isPresent()) {
 				//// @formatter:off
 				return entity.get().getAttributes().stream()
 					.filter(attr -> attr.getType().equals("List"))
-					.filter(attr -> attr.getGenericType().getName().equals(this.entity.getName()))
+					.filter(attr -> attr.getGenericType().equals(this.entity.getName()))
 					.findFirst()
 					.map(attr -> "bidirectional")
 					.orElse("unidirectional");
@@ -476,7 +474,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 				//// @formatter:off
 				return entity.get().getAttributes().stream()
 					.filter(attr -> attr.getType().equals("List"))
-					.filter(attr -> attr.getGenericType().getName().equals(this.entity.getName()))
+					.filter(attr -> attr.getGenericType().equals(this.entity.getName()))
 					.findFirst()
 					.map(attr -> "bidirectional")
 					.orElse("unidirectional");

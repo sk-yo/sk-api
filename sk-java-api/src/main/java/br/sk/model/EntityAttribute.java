@@ -198,7 +198,7 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
-	Entity getGenericType();
+	String getGenericType();
 
 	/**
 	 * 
