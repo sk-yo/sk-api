@@ -2,6 +2,7 @@ package br.sk.model.impl;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,9 +10,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thoughtworks.qdox.model.DocletTag;
-import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 
 import br.sk.factory.EntityContext;
@@ -25,18 +24,25 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	private Set<Annotation> annotations;
 
-	@JsonIgnore
 	private EntityContext context;
 
-	public EntityAttributeImpl(EntityContext builder, JavaField javaField) {
+	private Entity entity;
+
+	public EntityAttributeImpl(EntityContext builder, Entity entity, JavaField javaField) {
 		super();
 		this.context = builder;
+		this.entity = entity;
 		this.javaField = javaField;
 	}
 
 	@Override
 	public EntityContext getContext() {
 		return this.context;
+	}
+
+	@Override
+	public Entity getEntity() {
+		return this.entity;
 	}
 
 	/*
@@ -390,19 +396,50 @@ public class EntityAttributeImpl implements EntityAttribute {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.EntityAttribute#getNavegability()
+	 */
 	@Override
 	public String getNavegability() {
 		if (this.hasMultiplicity()) {
-			if (this.getMultiplicity().equals("OneToMany")) {
-				return this.hasMappedBy() ? "bidirectional" : "unidirectional";
-			} else if (this.getMultiplicity().equals("OneToOne")) {
-				this.context.findByName(this.getType()).ifPresent(entity -> {
-					System.out.println(entity.getAttributes());
-				});
-				//this.context.getClasses().forEach(c -> System.out.println(c.getCanonicalName()));
-				//JavaClass javaClass = this.context.getClassByName("br.sk.model." + this.getType());
-				//javaClass.getFields().stream().forEach(attr -> System.out.println(attr.getName()));
+			switch (this.getMultiplicity()) {
+			case "OneToMany":
+				return this.resolveNavegabilityForOneToMany();
+			case "OneToOne":
+				return this.resolveNavegabilityForOneToOne();
+			case "ManyToMany":
+				break;
+			case "ManyToOne":
+				break;
+			default:
+				break;
 			}
+		}
+		return null;
+	}
+
+	private String resolveNavegabilityForOneToMany() {
+		if (this.getMultiplicity().equals("OneToMany")) {
+			return this.hasMappedBy() ? "bidirectional" : "unidirectional";
+		}
+		return null;
+	}
+
+	private String resolveNavegabilityForOneToOne() {
+		if (this.getMultiplicity().equals("OneToOne")) {
+			Optional<Entity> entity = this.context.findByName(this.getType());
+			if (entity.isPresent()) {
+				//// @formatter:off
+				return entity.get().getAttributes().stream()
+					.filter(attr -> attr.getType().equals(this.entity.getName()))
+					.findAny()
+					.map(attr -> "bidirectional")
+					.orElse("unidirectional");
+				// @formatter:on
+			}
+			return this.hasMappedBy() ? "bidirectional" : "unidirectional";
 		}
 		return null;
 	}

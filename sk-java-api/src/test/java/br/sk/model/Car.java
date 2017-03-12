@@ -2,6 +2,7 @@ package br.sk.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Car {
@@ -10,6 +11,9 @@ public class Car {
 	private Long id;
 
 	private Integer ano;
+
+	//@OneToOne(mappedBy = "car")
+	//private Foo foo;
 
 	public Long getId() {
 		return id;

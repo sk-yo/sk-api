@@ -19,6 +19,13 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
+	Entity getEntity();
+
+	/**
+	 * 
+	 * @return
+	 */
 	String getName();
 
 	/**

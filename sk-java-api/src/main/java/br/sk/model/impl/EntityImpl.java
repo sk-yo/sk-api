@@ -146,7 +146,7 @@ public class EntityImpl implements Entity {
 			//// @formatter:off
 			this.attributes = javaClass.getFields()
 								.stream()
-								.map(javaField -> new EntityAttributeImpl(builder, javaField))
+								.map(javaField -> new EntityAttributeImpl(builder, this, javaField))
 								.collect(Collectors.toSet());
 			// @formatter:on
 		}
