@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.thoughtworks.qdox.JavaProjectBuilder;
-import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaSource;
 
 import br.sk.model.Entity;
@@ -41,18 +40,6 @@ public class EntityContext {
 		try {
 			javaSource = builder.addSource(context.get(name));
 			return Optional.of(new EntityImpl(this, javaSource.getClasses().get(0), backReference));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return Optional.empty();
-	}
-
-	public Optional<JavaClass> findJavaClassByName(String name) {
-		JavaProjectBuilder builder = new JavaProjectBuilder();
-		JavaSource javaSource;
-		try {
-			javaSource = builder.addSource(context.get(name));
-			return Optional.of(javaSource.getClasses().get(0));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

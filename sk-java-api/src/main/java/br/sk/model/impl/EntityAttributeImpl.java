@@ -389,8 +389,15 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 */
 
 	@Override
-	public String getGenericType() {
-		return EntityAttributeImpl.getGenericType(this.javaField);
+	public Entity getGenericType() {
+		if(!backReference && this.hasMultiplicity() && this.isTypeList()) {
+			//// @formatter:off
+			return this.context.findEntityByName(EntityAttributeImpl.getGenericType(this.javaField), true)
+						.map(entity -> entity)
+						.orElse(null);
+			// @formatter:on
+		}
+		return null;
 	}
 
 	/*
@@ -428,10 +435,10 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	private String resolveNavegabilityForOneToOne() {
 		if (this.getMultiplicity().equals("OneToOne")) {
-			Optional<JavaClass> javaClass = this.context.findJavaClassByName(this.getType());
-			if (javaClass.isPresent()) {
+			Optional<Entity> entity = this.context.findEntityByName(this.getType());
+			if (entity.isPresent()) {
 				//// @formatter:off
-				return javaClass.get().getFields().stream()
+				return entity.get().getAttributes().stream()
 					.filter(attr -> attr.getType().equals(this.entity.getName()))
 					.findFirst()
 					.map(attr -> "bidirectional")
@@ -445,12 +452,12 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	private String resolveNavegabilityForManyToMany() {
 		if (this.getMultiplicity().equals("ManyToMany")) {
-			Optional<JavaClass> javaClass = this.context.findJavaClassByName(this.getGenericType());
-			if (javaClass.isPresent()) {
+			Optional<Entity> entity = this.context.findEntityByName(this.getGenericType().getName());
+			if (entity.isPresent()) {
 				//// @formatter:off
-				return javaClass.get().getFields().stream()
-					.filter(javaField -> javaField.getType().getName().equals("List"))
-					.filter(javaField -> EntityAttributeImpl.getGenericType(javaField).equals(this.entity.getName()))
+				return entity.get().getAttributes().stream()
+					.filter(attr -> attr.getType().equals("List"))
+					.filter(attr -> attr.getGenericType().getName().equals(this.entity.getName()))
 					.findFirst()
 					.map(attr -> "bidirectional")
 					.orElse("unidirectional");
@@ -463,12 +470,13 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	private String resolveNavegabilityForManyToOne() {
 		if (this.getMultiplicity().equals("ManyToOne")) {
-			Optional<JavaClass> javaClass = this.context.findJavaClassByName(this.getType());
-			if (javaClass.isPresent()) {
+			Optional<Entity> entity = this.context.findEntityByName(this.getType());
+			if (entity.isPresent()) {
+				//entity.get().getAttributes().stream().forEach(attr -> System.out.println(attr.getGenericType()));
 				//// @formatter:off
-				return javaClass.get().getFields().stream()
-					.filter(javaField -> javaField.getType().getName().equals("List"))
-					.filter(javaField -> EntityAttributeImpl.getGenericType(javaField).equals(this.entity.getName()))
+				return entity.get().getAttributes().stream()
+					.filter(attr -> attr.getType().equals("List"))
+					.filter(attr -> attr.getGenericType().getName().equals(this.entity.getName()))
 					.findFirst()
 					.map(attr -> "bidirectional")
 					.orElse("unidirectional");
