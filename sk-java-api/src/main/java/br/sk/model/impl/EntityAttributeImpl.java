@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 
 import com.thoughtworks.qdox.model.DocletTag;
-import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 
 import br.sk.factory.EntityContext;
@@ -390,7 +389,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	@Override
 	public String getGenericType() {
-		if(this.hasMultiplicity() && this.isTypeList()) {
+		if (this.hasMultiplicity() && this.isTypeList()) {
 			//// @formatter:off
 			return EntityAttributeImpl.getGenericType(this.javaField);
 			// @formatter:on
@@ -419,7 +418,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 				default:
 					break;
 				}
-			} 
+			}
 		}
 		return null;
 	}
@@ -470,7 +469,8 @@ public class EntityAttributeImpl implements EntityAttribute {
 		if (this.getMultiplicity().equals("ManyToOne")) {
 			Optional<Entity> entity = this.context.findEntityByName(this.getType());
 			if (entity.isPresent()) {
-				//entity.get().getAttributes().stream().forEach(attr -> System.out.println(attr.getGenericType()));
+				// entity.get().getAttributes().stream().forEach(attr ->
+				// System.out.println(attr.getGenericType()));
 				//// @formatter:off
 				return entity.get().getAttributes().stream()
 					.filter(attr -> attr.getType().equals("List"))
