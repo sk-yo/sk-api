@@ -26,11 +26,13 @@ public class EntityImpl implements Entity {
 
 	private Set<Annotation> annotations;
 
-	public EntityImpl(EntityContext context, JavaClass javaClass) {
+	private boolean backReference;
+
+	public EntityImpl(EntityContext context, JavaClass javaClass, boolean backReference) {
 		super();
 		this.builder = context;
 		this.javaClass = javaClass;
-
+		this.backReference = backReference;
 	}
 
 	@Override
@@ -145,7 +147,7 @@ public class EntityImpl implements Entity {
 			//// @formatter:off
 			this.attributes = javaClass.getFields()
 								.stream()
-								.map(javaField -> new EntityAttributeImpl(builder, this, javaField))
+								.map(javaField -> new EntityAttributeImpl(builder, this, javaField, backReference))
 								.collect(Collectors.toSet());
 			// @formatter:on
 		}

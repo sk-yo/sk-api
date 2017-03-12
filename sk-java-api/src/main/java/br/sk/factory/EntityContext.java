@@ -28,7 +28,19 @@ public class EntityContext {
 		JavaSource javaSource;
 		try {
 			javaSource = builder.addSource(context.get(name));
-			return Optional.of(new EntityImpl(this, javaSource.getClasses().get(0)));
+			return Optional.of(new EntityImpl(this, javaSource.getClasses().get(0), false));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return Optional.empty();
+	}
+
+	public Optional<Entity> findEntityByName(String name, boolean backReference) {
+		JavaProjectBuilder builder = new JavaProjectBuilder();
+		JavaSource javaSource;
+		try {
+			javaSource = builder.addSource(context.get(name));
+			return Optional.of(new EntityImpl(this, javaSource.getClasses().get(0), backReference));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -29,11 +29,14 @@ public class EntityAttributeImpl implements EntityAttribute {
 
 	private Entity entity;
 
-	public EntityAttributeImpl(EntityContext builder, Entity entity, JavaField javaField) {
+	private boolean backReference;
+
+	public EntityAttributeImpl(EntityContext builder, Entity entity, JavaField javaField, boolean backReference) {
 		super();
 		this.context = builder;
 		this.entity = entity;
 		this.javaField = javaField;
+		this.backReference = backReference;
 	}
 
 	@Override
@@ -397,19 +400,21 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 */
 	@Override
 	public String getNavegability() {
-		if (this.hasMultiplicity()) {
-			switch (this.getMultiplicity()) {
-			case "OneToMany":
-				return this.resolveNavegabilityForOneToMany();
-			case "OneToOne":
-				return this.resolveNavegabilityForOneToOne();
-			case "ManyToMany":
-				return this.resolveNavegabilityForManyToMany();
-			case "ManyToOne":
-				return this.resolveNavegabilityForManyToOne();
-			default:
-				break;
-			}
+		if (!backReference) {
+			if (this.hasMultiplicity()) {
+				switch (this.getMultiplicity()) {
+				case "OneToMany":
+					return this.resolveNavegabilityForOneToMany();
+				case "OneToOne":
+					return this.resolveNavegabilityForOneToOne();
+				case "ManyToMany":
+					return this.resolveNavegabilityForManyToMany();
+				case "ManyToOne":
+					return this.resolveNavegabilityForManyToOne();
+				default:
+					break;
+				}
+			} 
 		}
 		return null;
 	}
@@ -437,7 +442,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 		}
 		return null;
 	}
-	
+
 	private String resolveNavegabilityForManyToMany() {
 		if (this.getMultiplicity().equals("ManyToMany")) {
 			Optional<JavaClass> javaClass = this.context.findJavaClassByName(this.getGenericType());
@@ -455,7 +460,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 		}
 		return null;
 	}
-	
+
 	private String resolveNavegabilityForManyToOne() {
 		if (this.getMultiplicity().equals("ManyToOne")) {
 			Optional<JavaClass> javaClass = this.context.findJavaClassByName(this.getType());
@@ -473,9 +478,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 		}
 		return null;
 	}
-	
-	
-	
+
 	protected static String getGenericType(JavaField javaField) {
 		if (javaField.getType().getName().equals("List")) {
 			Pattern pattern = Pattern.compile("List<([a-zA-Z]+)>");
