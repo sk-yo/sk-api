@@ -206,4 +206,10 @@ public interface EntityAttribute {
 	 */
 	String getNavegability();
 
+	/**
+	 * 
+	 * @return
+	 */
+	Entity getRelationship();
+
 }

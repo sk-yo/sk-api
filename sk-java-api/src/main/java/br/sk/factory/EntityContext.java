@@ -33,7 +33,7 @@ public class EntityContext {
 		}
 		return Optional.empty();
 	}
-
+	
 	public Optional<Entity> findEntityByName(String name, boolean backReference) {
 		JavaProjectBuilder builder = new JavaProjectBuilder();
 		JavaSource javaSource;

@@ -27,7 +27,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	private EntityContext context;
 
 	private Entity entity;
-
+	
 	private boolean backReference;
 
 	public EntityAttributeImpl(EntityContext builder, Entity entity, JavaField javaField, boolean backReference) {
@@ -390,9 +390,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	@Override
 	public String getGenericType() {
 		if (this.hasMultiplicity() && this.isTypeList()) {
-			//// @formatter:off
 			return EntityAttributeImpl.getGenericType(this.javaField);
-			// @formatter:on
 		}
 		return null;
 	}
@@ -404,20 +402,35 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 */
 	@Override
 	public String getNavegability() {
-		if (!backReference) {
+		if (this.hasMultiplicity()) {
+			switch (this.getMultiplicity()) {
+			case "OneToMany":
+				return this.resolveNavegabilityForOneToMany();
+			case "OneToOne":
+				return this.resolveNavegabilityForOneToOne();
+			case "ManyToMany":
+				return this.resolveNavegabilityForManyToMany();
+			case "ManyToOne":
+				return this.resolveNavegabilityForManyToOne();
+			default:
+				break;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Entity getRelationship() {
+		if(!backReference) {
 			if (this.hasMultiplicity()) {
-				switch (this.getMultiplicity()) {
-				case "OneToMany":
-					return this.resolveNavegabilityForOneToMany();
-				case "OneToOne":
-					return this.resolveNavegabilityForOneToOne();
-				case "ManyToMany":
-					return this.resolveNavegabilityForManyToMany();
-				case "ManyToOne":
-					return this.resolveNavegabilityForManyToOne();
-				default:
-					break;
+				if (this.isTypeList()) {
+					return this.context.findEntityByName(this.getGenericType(),true)
+							.map(entity -> entity)
+							.orElse(null);
 				}
+				return this.context.findEntityByName(this.getType(), true)
+						.map(entity -> entity)
+						.orElse(null);
 			}
 		}
 		return null;
