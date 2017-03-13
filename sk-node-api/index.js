@@ -1,5 +1,6 @@
 var java  = require('java');
-java.classpath.push(path.resolve(__dirname, 'lib/sk-java-api-1.1.0.jar'));
+var path = require('path');
+java.classpath.push(path.resolve(__dirname, 'lib/sk-java-api-1.1.2.jar'));
 
 module.exports = {
 	/**
@@ -8,7 +9,7 @@ module.exports = {
 	 * @param {*} entityName 
 	 */
 	findByName(entityName) {
-		return JSON.parse(java.callStaticMethodSync('br.sk.api.Entities', 'findByName',  process.cwd(), name));
+		return JSON.parse(java.callStaticMethodSync('br.sk.api.Entities', 'findByName',  process.cwd(), entityName));
 	},
 
 	/**
