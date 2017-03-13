@@ -14,7 +14,7 @@ public class EntityFactoryTest {
 
 		EntityContext context = EntityContext.of("/home/jcruz/workspace-test/app2");
 
-		Optional<Entity> entity = context.findEntityByName("Car");
+		Optional<Entity> entity = context.findEntityByName("Foo");
 		if (entity.isPresent()) {
 			System.out.println(JSON.stringify(entity.get()));
 		}
