@@ -17,6 +17,7 @@ import br.sk.factory.EntityContext;
 import br.sk.model.Annotation;
 import br.sk.model.Entity;
 import br.sk.model.EntityAttribute;
+import br.sk.utils.Inflector;
 
 public class EntityAttributeImpl implements EntityAttribute {
 
@@ -85,7 +86,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 */
 	@Override
 	public String getSingularName() {
-		return null;
+		return Inflector.getForLocale("pt_BR").singularize(this.javaField.getName());
 	}
 
 	/*
