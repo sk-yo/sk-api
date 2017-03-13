@@ -211,4 +211,14 @@ public class EntityImpl implements Entity {
 		return this.attributes;
 	}
 
+	@Override
+	public EntityAttribute getIdAttribute() {
+		return this.javaClass.getFields().stream()
+				.filter(javaFied -> javaFied.getAnnotations().stream().anyMatch(ann -> ann.getType().getName().equals("Id")))
+				.findFirst()
+				.map(javaField -> new EntityAttributeImpl(builder, this, javaField, false))
+				.orElse(null);
+				
+	}
+
 }

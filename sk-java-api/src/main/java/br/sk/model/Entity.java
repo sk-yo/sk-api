@@ -120,4 +120,10 @@ public interface Entity {
 	 */
 	Set<EntityAttribute> getAttributes();
 
+	/**
+	 * 
+	 * @return
+	 */
+	EntityAttribute getIdAttribute();
+
 }
