@@ -2,7 +2,7 @@ package br.sk.api;
 
 import java.io.IOException;
 
-import br.sk.factory.EntityContext;
+import br.sk.context.EntityContext;
 import br.sk.utils.JSON;
 
 public class Entities {

@@ -7,7 +7,7 @@ import java.util.Optional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import br.sk.factory.EntityContext;
+import br.sk.context.EntityContext;
 import br.sk.model.Entity;
 
 public class EntityFactoryTest {

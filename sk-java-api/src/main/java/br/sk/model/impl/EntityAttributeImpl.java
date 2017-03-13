@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 
-import br.sk.factory.EntityContext;
+import br.sk.context.EntityContext;
 import br.sk.model.Annotation;
 import br.sk.model.Entity;
 import br.sk.model.EntityAttribute;

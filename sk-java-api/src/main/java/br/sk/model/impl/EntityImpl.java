@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.thoughtworks.qdox.model.JavaClass;
 
-import br.sk.factory.EntityContext;
+import br.sk.context.EntityContext;
 import br.sk.model.Annotation;
 import br.sk.model.Entity;
 import br.sk.model.EntityAttribute;

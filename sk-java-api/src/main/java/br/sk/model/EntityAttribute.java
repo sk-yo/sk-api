@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import br.sk.factory.EntityContext;
+import br.sk.context.EntityContext;
 
 @JsonPropertyOrder(value = { "name" })
 public interface EntityAttribute {

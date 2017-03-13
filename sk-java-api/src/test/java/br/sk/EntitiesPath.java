@@ -2,7 +2,7 @@ package br.sk;
 
 import java.io.IOException;
 
-import br.sk.factory.EntityContext;
+import br.sk.context.EntityContext;
 
 public class EntitiesPath {
 	public static void main(String[] args) throws IOException {
