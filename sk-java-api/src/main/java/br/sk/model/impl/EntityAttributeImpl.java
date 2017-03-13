@@ -85,7 +85,7 @@ public class EntityAttributeImpl implements EntityAttribute {
 	 * @see br.sk.model.jpa.EntityAttribute#getSingularName()
 	 */
 	@Override
-	public String getSingularName() {
+	public String getSingulariedName() {
 		return Inflector.getForLocale("pt_BR").singularize(this.javaField.getName());
 	}
 

@@ -45,7 +45,7 @@ public interface EntityAttribute {
 	 * 
 	 * @return
 	 */
-	String getSingularName();
+	String getSingulariedName();
 
 	/**
 	 * 
