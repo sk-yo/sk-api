@@ -13,6 +13,7 @@ import br.sk.factory.EntityContext;
 import br.sk.model.Annotation;
 import br.sk.model.Entity;
 import br.sk.model.EntityAttribute;
+import br.sk.utils.Inflector;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EntityImpl implements Entity {
@@ -67,7 +68,17 @@ public class EntityImpl implements Entity {
 	 */
 	@Override
 	public String getPluralizedInstanceName() {
-		return javaClass.getName().concat("s");
+		return Inflector.getForLocale("pt_BR").pluralize(StringUtils.uncapitalize(javaClass.getName()));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.Entity#getPluralizedName()
+	 */
+	@Override
+	public String getPluralizedName() {
+		return Inflector.getForLocale("pt_BR").pluralize(javaClass.getName());
 	}
 
 	/*

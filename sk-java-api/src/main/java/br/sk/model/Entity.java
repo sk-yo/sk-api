@@ -5,7 +5,6 @@ import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.thoughtworks.qdox.JavaProjectBuilder;
 
 import br.sk.factory.EntityContext;
 
@@ -15,7 +14,7 @@ import br.sk.factory.EntityContext;
  * @author jcruz
  *
  */
-@JsonPropertyOrder({ "name", "fullyQualifiedName", "instanceName", "pluralizedInstanceName", "tableName" })
+@JsonPropertyOrder({ "name", "fullyQualifiedName", "instanceName", "pluralizedInstanceName", "pluralizedName", "tableName" })
 public interface Entity {
 
 	@JsonIgnore
@@ -48,6 +47,12 @@ public interface Entity {
 	 * @return
 	 */
 	String getPluralizedInstanceName();
+
+	/**
+	 * 
+	 * @return
+	 */
+	String getPluralizedName();
 
 	/**
 	 * Nome qualificado (Nome da classe mais o nome do pacote) da classe.
