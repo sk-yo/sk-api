@@ -1,7 +1,5 @@
 package br.sk.model.impl;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -223,9 +221,13 @@ public class EntityImpl implements Entity {
 
 	@Override
 	public EntityAttribute getIdAttribute() {
-		return this.javaClass.getFields().stream()
-				.filter(javaFied -> javaFied.getAnnotations().stream().anyMatch(ann -> ann.getType().getName().equals("Id"))).findFirst()
-				.map(javaField -> new EntityAttributeImpl(builder, this, javaField, false)).orElse(null);
+		//// @formatter:off
+		return this.getAttributes().stream()
+				.filter(attr -> attr.isId())
+				.findFirst()
+				.map(attr -> attr)
+				.orElse(null);
+		// @formatter:on
 
 	}
 
