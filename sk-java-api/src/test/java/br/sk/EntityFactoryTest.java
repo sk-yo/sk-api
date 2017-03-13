@@ -20,7 +20,6 @@ public class EntityFactoryTest {
 		if (entity.isPresent()) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-			// System.out.println(entity);
 			String json = objectMapper.writeValueAsString(entity.get());
 			System.out.println(json);
 		}
