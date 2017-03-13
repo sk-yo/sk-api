@@ -1,6 +1,6 @@
 var java  = require('java');
 var path = require('path');
-java.classpath.push(path.resolve(__dirname, 'lib/sk-java-api-1.1.2.jar'));
+java.classpath.push(path.resolve(__dirname, 'lib/sk-java-api-1.1.4.jar'));
 
 module.exports = {
 	/**
