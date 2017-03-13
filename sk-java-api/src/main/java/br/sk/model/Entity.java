@@ -21,6 +21,18 @@ public interface Entity {
 	EntityContext getContext();
 
 	/**
+	 * 
+	 * @return
+	 */
+	String getPackageName();
+
+	/**
+	 * 
+	 * @return
+	 */
+	String getParentPackageName();
+
+	/**
 	 * Nome da classe.
 	 * 
 	 * Ex: Foo.java -> Foo

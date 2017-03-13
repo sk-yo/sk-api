@@ -13,8 +13,4 @@ module.exports = {
 		return JSON.parse(java.callStaticMethodSync('br.sk.api.Entities', 'findByName',  process.cwd(), name));
 	}
 
-	findAll() {
-
-	}
-
 }

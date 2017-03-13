@@ -44,6 +44,26 @@ public class EntityImpl implements Entity {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see br.sk.model.Entity#getPackageName()
+	 */
+	@Override
+	public String getPackageName() {
+		return this.javaClass.getPackageName();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.Entity#getParentPackageName()
+	 */
+	@Override
+	public String getParentPackageName() {
+		return this.javaClass.getPackage().getParentPackage().getName();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.jpa.Entity#getName()
 	 */
 	@Override
