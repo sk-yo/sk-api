@@ -14,9 +14,9 @@ public class EntityFactoryTest {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 
-		EntityContext context = EntityContext.of("src/test/java");
+		EntityContext context = EntityContext.of("/home/jcruz/workspace-test/app2/src/main/java");
 
-		Optional<Entity> entity = context.findEntityByName("Foo");
+		Optional<Entity> entity = context.findEntityByName("Car");
 		if (entity.isPresent()) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);

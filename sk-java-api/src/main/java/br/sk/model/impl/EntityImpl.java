@@ -1,9 +1,12 @@
 package br.sk.model.impl;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -74,7 +77,11 @@ public class EntityImpl implements Entity {
 	 */
 	@Override
 	public String getParentPackageName() {
-		return this.javaClass.getPackage().getParentPackage().getName();
+		String[] packageNamesArray = this.javaClass.getPackage().getName().split("\\.");
+		if (packageNamesArray.length > 0) {
+			return StringUtils.join(ArrayUtils.remove(packageNamesArray, packageNamesArray.length - 1), ".");
+		}
+		return null;
 	}
 
 	/*
@@ -84,7 +91,10 @@ public class EntityImpl implements Entity {
 	 */
 	@Override
 	public String getParentPackageDir() {
-		return FilenameUtils.normalize(StringUtils.replaceAll(this.javaClass.getPackage().getParentPackage().getName(), "\\.", "/"));
+		if (this.getPackageName() != null) {
+			return FilenameUtils.normalize(StringUtils.replaceAll(this.getParentPackageName(), "\\.", "/"));
+		}
+		return null;
 	}
 
 	/*
@@ -214,11 +224,9 @@ public class EntityImpl implements Entity {
 	@Override
 	public EntityAttribute getIdAttribute() {
 		return this.javaClass.getFields().stream()
-				.filter(javaFied -> javaFied.getAnnotations().stream().anyMatch(ann -> ann.getType().getName().equals("Id")))
-				.findFirst()
-				.map(javaField -> new EntityAttributeImpl(builder, this, javaField, false))
-				.orElse(null);
-				
+				.filter(javaFied -> javaFied.getAnnotations().stream().anyMatch(ann -> ann.getType().getName().equals("Id"))).findFirst()
+				.map(javaField -> new EntityAttributeImpl(builder, this, javaField, false)).orElse(null);
+
 	}
 
 }
