@@ -3,6 +3,7 @@ package br.sk.model.impl;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -36,6 +37,11 @@ public class EntityImpl implements Entity {
 		this.backReference = backReference;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.Entity#getContext()
+	 */
 	@Override
 	public EntityContext getContext() {
 		return this.builder;
@@ -54,11 +60,31 @@ public class EntityImpl implements Entity {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see br.sk.model.Entity#getPackageDir()
+	 */
+	@Override
+	public String getPackageDir() {
+		return FilenameUtils.normalize(StringUtils.replaceAll(this.javaClass.getPackageName(), "\\.", "/"));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see br.sk.model.Entity#getParentPackageName()
 	 */
 	@Override
 	public String getParentPackageName() {
 		return this.javaClass.getPackage().getParentPackage().getName();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see br.sk.model.Entity#getParentPackageDir()
+	 */
+	@Override
+	public String getParentPackageDir() {
+		return FilenameUtils.normalize(StringUtils.replaceAll(this.javaClass.getPackage().getParentPackage().getName(), "\\.", "/"));
 	}
 
 	/*

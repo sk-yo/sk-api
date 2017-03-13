@@ -30,7 +30,19 @@ public interface Entity {
 	 * 
 	 * @return
 	 */
+	String getPackageDir();
+
+	/**
+	 * 
+	 * @return
+	 */
 	String getParentPackageName();
+
+	/**
+	 * 
+	 * @return
+	 */
+	String getParentPackageDir();
 
 	/**
 	 * Nome da classe.
