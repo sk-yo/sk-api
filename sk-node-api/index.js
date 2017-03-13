@@ -1,6 +1,4 @@
 var java  = require('java');
-var path = require('path');
-const _ = require('lodash');
 java.classpath.push(path.resolve(__dirname, 'lib/sk-java-api-1.1.0.jar'));
 
 module.exports = {
@@ -11,6 +9,20 @@ module.exports = {
 	 */
 	findByName(entityName) {
 		return JSON.parse(java.callStaticMethodSync('br.sk.api.Entities', 'findByName',  process.cwd(), name));
+	},
+
+	/**
+	 * 
+	 */
+	findAll() {
+		return JSON.parse(java.callStaticMethodSync('br.sk.api.Entities', 'findAll',  process.cwd()));
+	},
+
+	/**
+	 * 
+	 */
+	getNames() {
+		return JSON.parse(java.callStaticMethodSync('br.sk.api.Entities', 'getNames',  process.cwd()));
 	}
 
 }
